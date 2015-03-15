@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.sonatype.plexus:plexus-build-api:0.0.4">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.sonatype.plexus/plexus-build-api/0.0.4/8fdcf45c2fad3052a51385fdfc79753d9124a1a7/plexus-build-api-0.0.4.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.sonatype.plexus/plexus-build-api/0.0.4/4371713b0e9b0a0e2b9ab519bb76738cdcb8d574/plexus-build-api-0.0.4-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
