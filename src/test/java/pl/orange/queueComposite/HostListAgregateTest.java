@@ -12,7 +12,7 @@ public class HostListAgregateTest {
     @Test
     public void shouldNotRemoveHostIfNotAdded() {
        //Given
-        hla = new HostListAgregate();
+        hla =  HostListAgregate.getInstanceForTestPurpose();
         //When
         try {
             hla.removeItem(new Host("L2-01-01", "Wifi"));
@@ -25,7 +25,7 @@ public class HostListAgregateTest {
     @Test
     public void shouldAddItemToSimpleListInsideAgregate() throws HostListException {
         // Given
-        hla = new HostListAgregate();
+        hla = HostListAgregate.getInstanceForTestPurpose();
         hla.addItem(new SimpleHostsList("CAT_IQ",10));
         // When
         hla.addItem(new Host("L2-01-01","CAT_IQ"));
@@ -37,7 +37,7 @@ public class HostListAgregateTest {
     @Test
     public void shouldNotAddtoNotSetUpSimpleList() throws Exception {
         // Given
-        hla = new HostListAgregate();
+        hla = HostListAgregate.getInstanceForTestPurpose();
         // When
         try {
             hla.addItem(new Host("L2-01-01", "CAT_IQ"));
@@ -51,7 +51,7 @@ public class HostListAgregateTest {
     @Test
     public void shouldNotGetSizeOfNotInitializedSimpleList() throws Exception {
         // Given
-        hla = new HostListAgregate();
+        hla = HostListAgregate.getInstanceForTestPurpose();
         // When
         try {
             hla.getSizeofInternalList("CAT_IQ");
@@ -64,7 +64,7 @@ public class HostListAgregateTest {
     @Test
     public void shouldRemoveItemFromSimpleHistsList() throws Exception {
         // Given
-        hla = new HostListAgregate();
+        hla = HostListAgregate.getInstanceForTestPurpose();
         hla.addItem(new SimpleHostsList("CAT_IQ",10));
         hla.addItem(new Host("L2-01-01","CAT_IQ"));
         assertThat(hla.getSizeofInternalList("CAT_IQ")).isEqualTo(1);
@@ -77,7 +77,7 @@ public class HostListAgregateTest {
     @Test
     public void shouldAddItemToWifiListComponent() throws Exception {
         // Given
-        hla = new HostListAgregate();
+        hla = HostListAgregate.getInstanceForTestPurpose();
         WifiListComponent wlc =  new WifiListComponent("Wifi",3);
         wlc.addItem(new SimpleHostsList("1",10));
         wlc.addItem(new SimpleHostsList("6",10));
@@ -92,7 +92,7 @@ public class HostListAgregateTest {
     @Test
     public void checkIfRemovingSimpleHostListIsImposible() throws Exception {
         // Given
-        hla = new HostListAgregate();
+        hla = HostListAgregate.getInstanceForTestPurpose();
         hla.addItem(new SimpleHostsList("CAT_IQ",10));
         try {
             hla.removeItem(new SimpleHostsList("CAT_IQ", 10));

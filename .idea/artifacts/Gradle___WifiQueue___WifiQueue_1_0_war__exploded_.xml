@@ -1,18 +1,43 @@
 <component name="ArtifactManager">
-  <artifact type="exploded-war" name="helloJavaEE:war exploded">
-    <output-path>$PROJECT_DIR$/out/artifacts/helloJavaEE_war_exploded</output-path>
+  <artifact type="exploded-war" name="Gradle : WifiQueue : WifiQueue-1.0.war (exploded)">
+    <output-path>$PROJECT_DIR$/out/artifacts/WifiQueue/exploded/WifiQueue-1.0.war</output-path>
+    <properties id="gradle-properties">
+      <options external-project-path="$PROJECT_DIR$" />
+    </properties>
     <root id="root">
-      <element id="javaee-facet-resources" facet="HostsQueue/web/Web" />
+      <element id="javaee-facet-resources" facet="WifiQueue/web/Web Gradle : WifiQueue-1.0.war" />
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
-          <element id="module-output" name="HostsQueue" />
+          <element id="module-output" name="WifiQueue" />
+          <element id="dir-copy" path="$PROJECT_DIR$/build/resources/main" />
         </element>
         <element id="directory" name="lib">
-          <element id="library" level="project" name="Gradle: org.apache.maven.wagon:wagon-file:1.0-beta-2" />
+          <element id="library" level="project" name="Gradle: log4j:log4j:1.2.17" />
+          <element id="library" level="project" name="Gradle: org.apache.tomcat.maven:tomcat7-maven-plugin:2.2" />
+          <element id="library" level="project" name="Gradle: org.apache.tomcat:tomcat-catalina:7.0.47" />
+          <element id="library" level="project" name="Gradle: com.sun.jersey:jersey-servlet:1.19" />
+          <element id="library" level="project" name="Gradle: com.sun.jersey:jersey-server:1.19" />
+          <element id="library" level="project" name="Gradle: com.sun.jersey:jersey-core:1.19" />
+          <element id="library" level="project" name="Gradle: org.apache.tomcat.embed:tomcat-embed-core:7.0.47" />
+          <element id="library" level="project" name="Gradle: org.apache.tomcat:tomcat-util:7.0.47" />
+          <element id="library" level="project" name="Gradle: org.apache.tomcat:tomcat-coyote:7.0.47" />
+          <element id="library" level="project" name="Gradle: org.apache.tomcat:tomcat-api:7.0.47" />
+          <element id="library" level="project" name="Gradle: org.apache.tomcat:tomcat-jdbc:7.0.47" />
+          <element id="library" level="project" name="Gradle: org.apache.tomcat:tomcat-dbcp:7.0.47" />
+          <element id="library" level="project" name="Gradle: org.apache.tomcat:tomcat-servlet-api:7.0.47" />
+          <element id="library" level="project" name="Gradle: org.apache.tomcat:tomcat-jsp-api:7.0.47" />
+          <element id="library" level="project" name="Gradle: org.apache.tomcat:tomcat-jasper:7.0.47" />
+          <element id="library" level="project" name="Gradle: org.apache.tomcat:tomcat-jasper-el:7.0.47" />
+          <element id="library" level="project" name="Gradle: org.apache.tomcat:tomcat-el-api:7.0.47" />
+          <element id="library" level="project" name="Gradle: org.apache.tomcat:tomcat-tribes:7.0.47" />
+          <element id="library" level="project" name="Gradle: org.apache.tomcat:tomcat-catalina-ha:7.0.47" />
+          <element id="library" level="project" name="Gradle: org.apache.tomcat:tomcat-annotations-api:7.0.47" />
+          <element id="library" level="project" name="Gradle: org.apache.tomcat:tomcat-juli:7.0.47" />
           <element id="library" level="project" name="Gradle: org.apache.tomcat.embed:tomcat-embed-logging-juli:7.0.47" />
           <element id="library" level="project" name="Gradle: org.apache.tomcat.embed:tomcat-embed-logging-log4j:7.0.47" />
           <element id="library" level="project" name="Gradle: org.eclipse.jdt.core.compiler:ecj:4.2.2" />
           <element id="library" level="project" name="Gradle: org.apache.tomcat.maven:common-tomcat-maven-plugin:2.2" />
+          <element id="library" level="project" name="Gradle: org.apache.tomcat.maven:tomcat7-war-runner:2.2" />
           <element id="library" level="project" name="Gradle: org.apache.maven:maven-plugin-api:2.2.1" />
           <element id="library" level="project" name="Gradle: org.apache.maven:maven-archiver:2.4.2" />
           <element id="library" level="project" name="Gradle: org.codehaus.plexus:plexus-classworlds:2.2.2" />
@@ -23,6 +48,7 @@
           <element id="library" level="project" name="Gradle: org.codehaus.plexus:plexus-utils:3.0.15" />
           <element id="library" level="project" name="Gradle: org.apache.maven.shared:maven-filtering:1.0" />
           <element id="library" level="project" name="Gradle: org.slf4j:jcl-over-slf4j:1.7.5" />
+          <element id="library" level="project" name="Gradle: javax.ws.rs:jsr311-api:1.1.1" />
           <element id="library" level="project" name="Gradle: org.apache.maven:maven-project:2.2.1" />
           <element id="library" level="project" name="Gradle: com.google.guava:guava:10.0.1" />
           <element id="library" level="project" name="Gradle: org.apache.httpcomponents:httpclient:4.3.1" />
@@ -35,6 +61,7 @@
           <element id="library" level="project" name="Gradle: org.apache.maven:maven-monitor:2.0.6" />
           <element id="library" level="project" name="Gradle: org.codehaus.plexus:plexus-container-default:1.0-alpha-9-stable-1" />
           <element id="library" level="project" name="Gradle: org.sonatype.plexus:plexus-build-api:0.0.4" />
+          <element id="library" level="project" name="Gradle: org.slf4j:slf4j-api:1.7.5" />
           <element id="library" level="project" name="Gradle: com.google.code.findbugs:jsr305:1.3.9" />
           <element id="library" level="project" name="Gradle: org.apache.httpcomponents:httpcore:4.3" />
           <element id="library" level="project" name="Gradle: commons-logging:commons-logging:1.1.3" />
@@ -44,6 +71,7 @@
           <element id="library" level="project" name="Gradle: org.apache.maven:maven-plugin-descriptor:2.0.6" />
           <element id="library" level="project" name="Gradle: org.codehaus.plexus:plexus-interactivity-api:1.0-alpha-4" />
           <element id="library" level="project" name="Gradle: classworlds:classworlds:1.1" />
+          <element id="library" level="project" name="Gradle: org.apache.maven.wagon:wagon-file:1.0-beta-2" />
           <element id="library" level="project" name="Gradle: org.apache.maven.wagon:wagon-http-lightweight:1.0-beta-2" />
           <element id="library" level="project" name="Gradle: org.apache.maven.wagon:wagon-ssh-external:1.0-beta-2" />
           <element id="library" level="project" name="Gradle: org.apache.maven.wagon:wagon-ssh:1.0-beta-2" />
@@ -65,23 +93,20 @@
           <element id="library" level="project" name="Gradle: org.apache.maven:maven-repository-metadata:2.2.1" />
           <element id="library" level="project" name="Gradle: org.apache.maven.wagon:wagon-provider-api:1.0-beta-6" />
           <element id="library" level="project" name="Gradle: junit:junit:3.8.1" />
-          <element id="library" level="project" name="Gradle: log4j:log4j:1.2.17" />
-          <element id="library" level="project" name="Gradle: org.slf4j:slf4j-api:1.7.5" />
-          <element id="library" level="project" name="Gradle: org.apache.tomcat.embed:tomcat-embed-core:7.0.47" />
+          <element id="library" level="project" name="Gradle: com.sun.jersey:jersey-json:1.19" />
           <element id="library" level="project" name="Gradle: org.codehaus.jettison:jettison:1.1" />
           <element id="library" level="project" name="Gradle: com.sun.xml.bind:jaxb-impl:2.2.3-1" />
-          <element id="library" level="project" name="Gradle: javax.activation:activation:1.1" />
+          <element id="library" level="project" name="Gradle: org.codehaus.jackson:jackson-core-asl:1.9.2" />
+          <element id="library" level="project" name="Gradle: org.codehaus.jackson:jackson-mapper-asl:1.9.2" />
+          <element id="library" level="project" name="Gradle: org.codehaus.jackson:jackson-jaxrs:1.9.2" />
+          <element id="library" level="project" name="Gradle: org.codehaus.jackson:jackson-xc:1.9.2" />
           <element id="library" level="project" name="Gradle: javax.xml.bind:jaxb-api:2.2.2" />
           <element id="library" level="project" name="Gradle: javax.xml.stream:stax-api:1.0-2" />
-          <element id="library" level="project" name="Gradle: com.sun.jersey:jersey-core:1.8" />
-          <element id="library" level="project" name="Gradle: com.sun.jersey:jersey-json:1.8" />
-          <element id="library" level="project" name="Gradle: com.sun.jersey:jersey-server:1.8" />
-          <element id="library" level="project" name="Gradle: org.codehaus.jackson:jackson-core-asl:1.7.1" />
-          <element id="library" level="project" name="Gradle: org.codehaus.jackson:jackson-jaxrs:1.7.1" />
-          <element id="library" level="project" name="Gradle: org.codehaus.jackson:jackson-mapper-asl:1.7.1" />
-          <element id="library" level="project" name="Gradle: org.codehaus.jackson:jackson-xc:1.7.1" />
-          <element id="library" level="project" name="Gradle: asm:asm:3.1" />
+          <element id="library" level="project" name="Gradle: javax.activation:activation:1.1" />
         </element>
+      </element>
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/WifiQueue/exploded/WifiQueue-1.0.war/META-INF/MANIFEST.MF" />
       </element>
     </root>
   </artifact>

@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/HostsQueue.iml" filepath="$PROJECT_DIR$/HostsQueue.iml" />
-      <module fileurl="file://$PROJECT_DIR$/WifiQueue.iml" filepath="$PROJECT_DIR$/WifiQueue.iml" />
     </modules>
   </component>
 </project>
