@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.apache.tomcat.maven:tomcat7-maven-plugin:2.2">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.tomcat.maven/tomcat7-maven-plugin/2.2/b1eb7ecfe89d37490603aa20f847d45dbc3121cd/tomcat7-maven-plugin-2.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.tomcat.maven/tomcat7-maven-plugin/2.2/99b4208fd760cb7a2b3f0ced0e5cd5b68bd16efd/tomcat7-maven-plugin-2.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
