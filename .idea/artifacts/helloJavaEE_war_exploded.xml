@@ -7,6 +7,7 @@
           <element id="module-output" name="HostsQueue" />
           <element id="file-copy" path="$PROJECT_DIR$/src/main/resources/configuration.properties" />
           <element id="file-copy" path="$PROJECT_DIR$/src/main/resources/log4j.properties" />
+          <element id="dir-copy" path="$PROJECT_DIR$/src/main/webapp" />
         </element>
         <element id="directory" name="lib">
           <element id="library" level="project" name="Gradle: org.apache.maven.wagon:wagon-file:1.0-beta-2" />
@@ -84,8 +85,8 @@
           <element id="library" level="project" name="Gradle: asm:asm:3.1" />
           <element id="library" level="project" name="Gradle: com.hp.gagawa:gagawa:1.0.1" />
         </element>
+        <element id="file-copy" path="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" />
       </element>
-      <element id="dir-copy" path="$PROJECT_DIR$/src/main/webapp" />
     </root>
   </artifact>
 </component>

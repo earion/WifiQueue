@@ -16,15 +16,9 @@ public class QueueState {
 
     Document document;
     private Div container;
-    private ArrayList<String> headers;
-
+    private ArrayList<HeaderInformation> headersData;
     private String headerStyle;
     private Div errorDiv;
-
-
-    public ArrayList<String> getHeaders() {
-        return headers;
-    }
 
     public QueueState() throws HostListException {
         document = new Document(DocumentType.XHTMLTransitional);
@@ -66,21 +60,17 @@ public class QueueState {
         return select;
     }
 
-
-
-
     private void prepareHeaderNames() throws HostListException {
-        headers = new ArrayList();
-
+        headersData = new ArrayList<>();
         LinkedList<HostListComponent> agregateState =  HostListAgregate.get().getAgregateList();
         for(HostListComponent hlc : agregateState) {
             if(hlc instanceof WifiListComponent){
                 for(SimpleHostsList ilc : ((WifiListComponent) hlc).getItems()) {
-                    headers.add(hlc.getName() + " ch " + ilc.getName() + " " + ilc.getSize() + "/" + ilc.getMaxSize());
+                    headersData.add(new HeaderInformation(hlc.getName(),ilc.getName(),ilc.getSize(),ilc.getMaxSize()));
                 }
             }
             else {
-                headers.add(hlc.getName() + " " + hlc.getSize() + "/" + hlc.getMaxSize());
+                headersData.add(new HeaderInformation(hlc.getName(),hlc.getSize(),hlc.getMaxSize()));
             }
         }
     }
@@ -100,8 +90,6 @@ public class QueueState {
         }
         return queueContent;
     }
-
-
 
     private Div generateContent() throws HostListException {
         ArrayList<ArrayList<String>> content = prapareQuqueContent();
@@ -129,37 +117,38 @@ public class QueueState {
         return list;
     }
 
-
-
     private Div generateQueuesHeaders() throws HostListException {
         prepareHeaderNames();
         prepareHeaderLength();
         Div row = new Div();
         row.setCSSClass("row");
-        for(String headerName: getHeaders()) {
-            Div tmpDiv = new Div();
-            tmpDiv.appendChild(new Text(headerName));
-            String max = headerName.substring(headerName.lastIndexOf("/")+1);
-            tmpDiv.setCSSClass(headerStyle);
-            Form tmpForm = new Form("modify");
-            Input hiddenInput = new Input();
-            hiddenInput.setType("Hidden");
-            hiddenInput.setName("name");
-            hiddenInput.setValue(headerName.substring(0, headerName.indexOf(" ")));
-            tmpForm.appendChild(hiddenInput);
-            tmpForm.appendChild(buildDropDown(max));
-            tmpDiv.appendChild(tmpForm);
+        for(HeaderInformation headerData: headersData) {
+            Div tmpDiv = generateDivForOneHeader(headerData);
             row.appendChild(tmpDiv);
         }
         return row;
 
     }
 
-    private void prepareHeaderLength() {
-        int headerSize = 12 / getHeaders().size();
-        headerStyle = "col-md-" + Integer.toString(headerSize);
+    private Div generateDivForOneHeader(HeaderInformation headerData) {
+        Div tmpDiv = new Div();
+        tmpDiv.appendChild(new Text(headerData.getHeaderName()));
+        tmpDiv.setCSSClass(headerStyle);
+        Form tmpForm = new Form("modify");
+        Input hiddenInput = new Input();
+        hiddenInput.setType("Hidden");
+        hiddenInput.setName("name");
+        hiddenInput.setValue(headerData.getName());
+        tmpForm.appendChild(hiddenInput);
+        tmpForm.appendChild(buildDropDown(headerData.getMaxValueAsString()));
+        tmpDiv.appendChild(tmpForm);
+        return tmpDiv;
     }
 
+    private void prepareHeaderLength() {
+        int headerSize = 12 / headersData.size();
+        headerStyle = "col-md-" + Integer.toString(headerSize);
+    }
 
     private Div generatePageHeader() {
         Div pageHeader = new Div();
@@ -179,5 +168,38 @@ public class QueueState {
 
     public String getQueueState() {
         return document.write();
+    }
+
+    private class HeaderInformation {
+        String name;
+        String subname;
+        int curentValue;
+        int maxValue;
+
+        public String getHeaderName() {
+            return name + " " + subname + " " + Integer.toString(curentValue) + "/" + Integer.toString(maxValue);
+        }
+
+        public HeaderInformation(String name, String subname, int curentValue, int maxValue) {
+            this.name = name;
+            this.subname = subname;
+            this.curentValue = curentValue;
+            this.maxValue = maxValue;
+        }
+
+        public HeaderInformation(String name, int curentValue, int maxValue) {
+            this.name = name;
+            this.curentValue = curentValue;
+            this.maxValue = maxValue;
+            this.subname = "";
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getMaxValueAsString() {
+            return Integer.toString(maxValue);
+        }
     }
 }
