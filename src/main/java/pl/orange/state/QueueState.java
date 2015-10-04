@@ -1,4 +1,4 @@
-package pl.orange.queue;
+package pl.orange.state;
 
 import com.hp.gagawa.java.Document;
 import com.hp.gagawa.java.DocumentType;
@@ -28,7 +28,7 @@ public class QueueState {
 
     public QueueState() throws HostListException {
         document = new Document(DocumentType.XHTMLTransitional);
-        document.head.appendChild( new Title().appendChild( new Text("Complex Example Title") ) );
+        document.head.appendChild( new Title().appendChild( new Text("Statystyki kolejek") ) );
         document.head.appendChild(new Link().setRel("stylesheet").setHref("../css/bootstrap.css"));
         document.head.appendChild(new Link().setRel("stylesheet").setHref("../css/grid.css"));
         document.head.appendChild(new Meta("30").setHttpEquiv("refresh"));

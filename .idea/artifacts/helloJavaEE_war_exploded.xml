@@ -2,11 +2,11 @@
   <artifact type="exploded-war" name="helloJavaEE:war exploded">
     <output-path>$PROJECT_DIR$/out/artifacts/helloJavaEE_war_exploded</output-path>
     <root id="root">
-      <element id="javaee-facet-resources" facet="HostsQueue/web/Web" />
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
           <element id="module-output" name="HostsQueue" />
           <element id="file-copy" path="$PROJECT_DIR$/src/main/resources/configuration.properties" />
+          <element id="file-copy" path="$PROJECT_DIR$/src/main/resources/log4j.properties" />
         </element>
         <element id="directory" name="lib">
           <element id="library" level="project" name="Gradle: org.apache.maven.wagon:wagon-file:1.0-beta-2" />
@@ -85,6 +85,7 @@
           <element id="library" level="project" name="Gradle: com.hp.gagawa:gagawa:1.0.1" />
         </element>
       </element>
+      <element id="dir-copy" path="$PROJECT_DIR$/src/main/webapp" />
     </root>
   </artifact>
 </component>
