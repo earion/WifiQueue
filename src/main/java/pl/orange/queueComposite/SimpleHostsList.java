@@ -15,7 +15,7 @@ public class SimpleHostsList extends HostListComponent{
     private  int maxSize;
     private final LinkedList<HostListComponent> hostsList;
 
-    public SimpleHostsList(String name, int size) {
+    SimpleHostsList(String name, int size) {
         super(name);
         hostsList = new LinkedList<>();
         maxSize = size;
@@ -57,13 +57,12 @@ public class SimpleHostsList extends HostListComponent{
         if(isHostOnList(item)) {
             hostsList.remove(item);
             log.info("remove in SimpleHostsList item  " + item.getName()  + " from " + getName());
-
         } else {
             throw new HostListException(ExceptionMessages.NOT_PRESENT, item.getName() + " " + ExceptionMessages.NOT_PRESENT.name() + " in " + getName());
         }
     }
 
-    protected boolean isHostOnList(HostListComponent itemName) {
+    boolean isHostOnList(HostListComponent itemName) {
         for(HostListComponent hostOnList : hostsList) {
             if(hostOnList.equals(itemName)) {
                 return true;

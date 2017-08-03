@@ -1,11 +1,10 @@
 package pl.orange.queueComposite;
 
 import org.apache.log4j.Logger;
-import pl.orange.config.Configuration;
 import pl.orange.config.ConfigurationEntry;
 import pl.orange.config.ConfigurationManager;
-import pl.orange.util.HostListException;
 import pl.orange.util.ExceptionMessages;
+import pl.orange.util.HostListException;
 
 import java.io.IOException;
 import java.util.LinkedList;
@@ -29,15 +28,21 @@ public class HostListAgregate extends HostListComponent {
         for(Map.Entry<String,ConfigurationEntry> entry: ConfigurationManager.getInstance().getConfiguration().entrySet()) {
             ConfigurationEntry confEntry = entry.getValue();
             String queueName = entry.getKey();
-            if(confEntry.getType().equals("multiple")) {
-                String[] wlcInnerNames = confEntry.getInner().split("\\,");
-                WifiListComponent wlc = new WifiListComponent(queueName,wlcInnerNames.length);
-                for(String innerName : wlcInnerNames) {
-                    wlc.addItem(new SimpleHostsList(innerName,confEntry.getSize()));
-                }
-                HostListAgregate.instance.addItem(wlc);
-            } else {
-                HostListAgregate.instance.addItem(new SimpleHostsList(queueName,confEntry.getSize()));
+            switch (confEntry.getType()) {
+                case "multiple":
+                    String[] wlcInnerNames = confEntry.getInner().split("\\,");
+                    WifiListComponent wlc = new WifiListComponent(queueName, wlcInnerNames.length);
+                    for (String innerName : wlcInnerNames) {
+                        wlc.addItem(new SimpleHostsList(innerName, confEntry.getSize()));
+                    }
+                    HostListAgregate.instance.addItem(wlc);
+                    break;
+                case "ONT":
+                    HostListAgregate.instance.addItem(new OntListComponent(queueName, confEntry.getSize(), 1));
+                    break;
+                default:
+                    HostListAgregate.instance.addItem(new SimpleHostsList(queueName, confEntry.getSize()));
+                    break;
             }
         }
     }
@@ -63,7 +68,7 @@ public class HostListAgregate extends HostListComponent {
         return instance;
     }
 
-    public static HostListAgregate getInstanceForTestPurpose() {
+    static HostListAgregate getInstanceForTestPurpose() {
         if (instance == null) {
             // Thread Safe. Might be costly operation in some case
             synchronized (HostListAgregate.class) {
@@ -146,11 +151,11 @@ public class HostListAgregate extends HostListComponent {
     }
 
 
-    public int getListsNumber() {
+    int getListsNumber() {
         return agregateList.size();
     }
 
-    public int getSizeOfInternalList(String targetList) throws HostListException {
+    int getSizeOfInternalList(String targetList) throws HostListException {
        for(HostListComponent hlc : agregateList) {
            if(hlc.getName().equals(targetList)) {
                return hlc.getSize();
