@@ -14,7 +14,7 @@ apply plugin: 'war'
 
 
 sourceCompatibility = 1.7
-version = '1.0'
+
 
 
 
