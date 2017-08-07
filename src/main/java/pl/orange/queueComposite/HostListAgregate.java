@@ -25,11 +25,11 @@ public class HostListAgregate extends HostListComponent {
 
     private void reloadConfiguration() throws HostListException, IOException {
         instance.removeAllItems();
-        for(Map.Entry<String,ConfigurationEntry> entry: ConfigurationManager.getInstance().getConfiguration().entrySet()) {
+        for (Map.Entry<String, ConfigurationEntry> entry : ConfigurationManager.getInstance().getConfiguration().entrySet()) {
             ConfigurationEntry confEntry = entry.getValue();
             String queueName = entry.getKey();
             switch (confEntry.getType()) {
-                case "multiple":
+                case "multiple": {
                     String[] wlcInnerNames = confEntry.getInner().split("\\,");
                     WifiListComponent wlc = new WifiListComponent(queueName, wlcInnerNames.length);
                     for (String innerName : wlcInnerNames) {
@@ -37,15 +37,21 @@ public class HostListAgregate extends HostListComponent {
                     }
                     HostListAgregate.instance.addItem(wlc);
                     break;
-                case "ONT":
-                    HostListAgregate.instance.addItem(new OntListComponent(queueName, confEntry.getSize(), 1));
+
+                }
+                case "ont": {
+                    HostListAgregate.instance.addItem(new OntListComponent(queueName, confEntry.getSlot(), confEntry.getSize()));
                     break;
-                default:
+                }
+                default: {
                     HostListAgregate.instance.addItem(new SimpleHostsList(queueName, confEntry.getSize()));
                     break;
+                }
             }
         }
     }
+
+
 
 
     public LinkedList<HostListComponent> getAgregateList() {
@@ -70,7 +76,6 @@ public class HostListAgregate extends HostListComponent {
 
     static HostListAgregate getInstanceForTestPurpose() {
         if (instance == null) {
-            // Thread Safe. Might be costly operation in some case
             synchronized (HostListAgregate.class) {
                 if (instance == null) {
                     instance = new HostListAgregate();

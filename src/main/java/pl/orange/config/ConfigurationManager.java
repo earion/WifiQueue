@@ -71,6 +71,7 @@ public class ConfigurationManager {
                 case "type" : tmp.setType(QueueType.valueOf(value)); break;
                 case "inner" : tmp.setInner(value); break;
                 case "size": tmp.setSize(Integer.decode(value)); break;
+                case "slot": tmp.setSlot(Integer.decode(value));
             }
             returnedMap.put(name, tmp);
         }

@@ -9,6 +9,7 @@ public class ConfigurationEntry {
     String type;
     String inner;
     Integer size;
+    Integer slot;
 
     public ConfigurationEntry(String name) {
         this.name = name;
@@ -26,6 +27,10 @@ public class ConfigurationEntry {
         this.size = size;
     }
 
+    public void setSlot(Integer slot) {
+        this.slot = slot;
+    }
+
     public String getName() {
         return name;
     }
@@ -41,4 +46,10 @@ public class ConfigurationEntry {
     public Integer getSize() {
         return size;
     }
+
+
+    public Integer getSlot() {
+        return slot;
+    }
+
 }

@@ -68,6 +68,11 @@ public class QueueState {
                 for(SimpleHostsList ilc : ((WifiListComponent) hlc).getItems()) {
                     headersData.add(new HeaderInformation(hlc.getName(),ilc.getName(),ilc.getSize(),ilc.getMaxSize()));
                 }
+            } else if(hlc instanceof OntListComponent) {
+                headersData.add(new HeaderInformation(hlc.getName(),
+                        "SLOT: " + Integer.toString(((OntListComponent) hlc).getOltId()),
+                        hlc.getSize(),
+                        hlc.getMaxSize()));
             }
             else {
                 headersData.add(new HeaderInformation(hlc.getName(),hlc.getSize(),hlc.getMaxSize()));
@@ -83,12 +88,23 @@ public class QueueState {
                 for(SimpleHostsList ilc : ((WifiListComponent) hlc).getItems()) {
                     queueContent.add(getHostsListFromSimpleQueue(ilc));
                 }
+            } else if(hlc instanceof OntListComponent) {
+                queueContent.add(getHostsListFromOntList((OntListComponent) hlc));
             }
             else {
                 queueContent.add(getHostsListFromSimpleQueue((SimpleHostsList) hlc));
             }
         }
         return queueContent;
+    }
+
+    private ArrayList<String> getHostsListFromOntList(OntListComponent olc) {
+        ArrayList<String> list = new ArrayList<>();
+        for(HostListComponent h: olc.getItems()) {
+            list.add(h.getName() + " " + ((Host) h).getCreationDate());
+        }
+        return list;
+
     }
 
     private Div generateContent() throws HostListException {

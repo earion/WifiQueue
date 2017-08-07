@@ -4,26 +4,41 @@ import org.apache.log4j.Logger;
 import pl.orange.util.ExceptionMessages;
 import pl.orange.util.HostListException;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 
 
-class OntListComponent extends HostListComponent {
+public class OntListComponent extends HostListComponent {
 
 
     private static final Logger log = Logger.getLogger(OntListComponent.class);
 
     private int oltId;
-    private int size;
 
-    private HashMap<HostListComponent,Integer> ontPoole;
+    private int size;
+    private LinkedHashMap<HostListComponent,Integer> ontPoole;
+
     private ArrayList<Boolean> ocupiedSlots;
+
+    public int getOltId() {
+        return oltId;
+    }
+
+    public LinkedList<HostListComponent> getItems() {
+       LinkedList<HostListComponent> hosts = new LinkedList<>();
+        for( Map.Entry<HostListComponent,Integer> entry : ontPoole.entrySet()) {
+           hosts.add(entry.getKey());
+        }
+        return hosts;
+    }
+
+
+
 
     OntListComponent(String name,int oltId, int size) {
         super(name);
         this.oltId = oltId;
         this.size = size;
-        ontPoole = new HashMap<>(size);
+        ontPoole = new LinkedHashMap<>(size);
         ocupiedSlots = new ArrayList<>(size);
         fillAllSlotsAsEmpty(size);
 
@@ -68,7 +83,7 @@ class OntListComponent extends HostListComponent {
 
     @Override
     protected void removeAllItems() throws HostListException {
-        ontPoole = new HashMap<>(size);
+        ontPoole = new LinkedHashMap<>(size);
         fillAllSlotsAsEmpty(size);
     }
 
@@ -83,6 +98,6 @@ class OntListComponent extends HostListComponent {
 
     @Override
     public int getMaxSize() {
-        return 0;
+        return size;
     }
 }
