@@ -12,7 +12,7 @@ public abstract class HostListComponent {
     public abstract int getSize();
     protected abstract void setSize(int size);
 
-    public HostListComponent(String name) {
+    HostListComponent(String name) {
         this.name = name;
     }
 
@@ -22,11 +22,12 @@ public abstract class HostListComponent {
 
     @Override
     public boolean equals(Object obj) {
-        if(obj instanceof HostListComponent) {
-            return ((HostListComponent) obj).getName().equals(this.getName());
-        } else {
-            return false;
-        }
+        return obj instanceof HostListComponent && ((HostListComponent) obj).getName().equals(this.getName());
+    }
+
+    @Override
+    public int hashCode() {
+        return name.hashCode();
     }
 
     public abstract int getMaxSize();

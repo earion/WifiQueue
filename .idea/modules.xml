@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/HostsQueue.iml" filepath="$PROJECT_DIR$/HostsQueue.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/HostsQueue.iml" filepath="$PROJECT_DIR$/.idea/modules/HostsQueue.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/HostsQueue_main.iml" filepath="$PROJECT_DIR$/.idea/modules/HostsQueue_main.iml" group="HostsQueue" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/HostsQueue_test.iml" filepath="$PROJECT_DIR$/.idea/modules/HostsQueue_test.iml" group="HostsQueue" />
     </modules>
   </component>
 </project>

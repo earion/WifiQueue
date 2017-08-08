@@ -11,6 +11,16 @@ public class ConfigurationEntry {
     Integer size;
     Integer slot;
 
+    public String getConfiguration() {
+        return configuration;
+    }
+
+    public void setConfiguration(String configuration) {
+        this.configuration = configuration;
+    }
+
+    String configuration;
+
     public ConfigurationEntry(String name) {
         this.name = name;
     }

@@ -64,12 +64,16 @@ public class OntListComponent extends HostListComponent {
 
     @Override
     protected void removeItem(HostListComponent item) throws HostListException {
+        if(!ontPoole.containsKey(item)) {
+            throw new HostListException(ExceptionMessages.NOT_PRESENT, item.getName() + " is not present on list " + getName());
+        }
         ocupiedSlots.add(ontPoole.get(item),false);
         ontPoole.remove(item);
     }
 
     @Override
     protected int addItem(HostListComponent item) throws HostListException {
+        checkIfElementIsNotOnList(item);
         int freeSlotId = findFirstFreeSlot();
         if(freeSlotId == 0)   throw new HostListException(ExceptionMessages.WAIT,"List " + getName() + " if full, impossible to add " + item.getName());
         if(findFirstFreeSlot() != 0) {
@@ -80,6 +84,14 @@ public class OntListComponent extends HostListComponent {
         }
         return freeSlotId;
     }
+
+
+    private void checkIfElementIsNotOnList(HostListComponent item) throws HostListException{
+        if(ontPoole.containsKey(item)) {
+            throw new HostListException(ExceptionMessages.INPROGRESS, item.getName() + " is present on list " + getName());
+        }
+    }
+
 
     @Override
     protected void removeAllItems() throws HostListException {

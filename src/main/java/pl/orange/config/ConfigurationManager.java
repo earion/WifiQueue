@@ -32,6 +32,11 @@ public class ConfigurationManager {
         return configMap;
     }
 
+
+    public ConfigurationEntry getConfigurationForQueue(String queueName) {
+        return configMap.get(queueName);
+    }
+
     public static ConfigurationManager getInstance() throws IOException {
         if(instance==null) {
             synchronized (ConfigurationManager.class) {
@@ -71,7 +76,8 @@ public class ConfigurationManager {
                 case "type" : tmp.setType(QueueType.valueOf(value)); break;
                 case "inner" : tmp.setInner(value); break;
                 case "size": tmp.setSize(Integer.decode(value)); break;
-                case "slot": tmp.setSlot(Integer.decode(value));
+                case "slot": tmp.setSlot(Integer.decode(value)); break;
+                case "configuration": tmp.setConfiguration(value); break;
             }
             returnedMap.put(name, tmp);
         }

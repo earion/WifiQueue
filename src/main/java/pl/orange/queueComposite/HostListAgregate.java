@@ -37,8 +37,8 @@ public class HostListAgregate extends HostListComponent {
                     }
                     HostListAgregate.instance.addItem(wlc);
                     break;
-
                 }
+                case "configuration": break;
                 case "ont": {
                     HostListAgregate.instance.addItem(new OntListComponent(queueName, confEntry.getSlot(), confEntry.getSize()));
                     break;

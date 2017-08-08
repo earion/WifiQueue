@@ -12,15 +12,15 @@ import java.util.LinkedList;
 /**
  * Created by mateusz on 03.10.15.
  */
-public class QueueState {
+class QueueState {
 
-    Document document;
+    private Document document;
     private Div container;
     private ArrayList<HeaderInformation> headersData;
     private String headerStyle;
     private Div errorDiv;
 
-    public QueueState() throws HostListException {
+    QueueState() throws HostListException {
         document = new Document(DocumentType.XHTMLTransitional);
         document.head.appendChild( new Title().appendChild( new Text("Statystyki kolejek") ) );
         document.head.appendChild(new Link().setRel("stylesheet").setHref("../css/bootstrap.css"));
@@ -42,7 +42,7 @@ public class QueueState {
         return errorDiv;
     }
 
-    public static Select buildDropDown(String max) {
+    private static Select buildDropDown(String max) {
         Select select = new Select();
         select.setCSSClass("form-control");
         select.setName("size");
@@ -80,8 +80,9 @@ public class QueueState {
         }
     }
 
+    @SuppressWarnings("unchecked")
     private ArrayList<ArrayList<String>> prapareQuqueContent() throws HostListException {
-        ArrayList<ArrayList<String>> queueContent = new ArrayList();
+        ArrayList queueContent = new ArrayList();
         LinkedList<HostListComponent> agregateState =  HostListAgregate.get().getAgregateList();
         for(HostListComponent hlc : agregateState) {
             if(hlc instanceof WifiListComponent){
@@ -115,11 +116,11 @@ public class QueueState {
             Div tmpDiv = new Div();
             tmpDiv.setCSSClass(headerStyle);
             tmpDiv.setStyle("background-color: #fff;font-size: 10px;height:400px");
-            String tmpString = new String();
+            StringBuilder tmpString = new StringBuilder();
             for(String contentEntry: contentColumn) {
-                tmpString +=contentEntry + "<BR>";
+                tmpString.append(contentEntry).append("<BR>");
             }
-            tmpDiv.appendText(tmpString);
+            tmpDiv.appendText(tmpString.toString());
             contentDiv.appendChild(tmpDiv);
         }
         return contentDiv;
@@ -148,16 +149,22 @@ public class QueueState {
 
     private Div generateDivForOneHeader(HeaderInformation headerData) {
         Div tmpDiv = new Div();
-        tmpDiv.appendChild(new Text(headerData.getHeaderName()));
+        Div columnHeaderDir = new Div();
         tmpDiv.setCSSClass(headerStyle);
-        Form tmpForm = new Form("modify");
-        Input hiddenInput = new Input();
-        hiddenInput.setType("Hidden");
-        hiddenInput.setName("name");
-        hiddenInput.setValue(headerData.getName());
-        tmpForm.appendChild(hiddenInput);
-        tmpForm.appendChild(buildDropDown(headerData.getMaxValueAsString()));
-        tmpDiv.appendChild(tmpForm);
+        tmpDiv.setStyle("height :100px");
+        columnHeaderDir.appendChild(new Text(headerData.getHeaderName()));
+        columnHeaderDir.setStyle("height: 60px");
+        tmpDiv.appendChild(columnHeaderDir);
+        if(!headerData.getHeaderName().toLowerCase().contains("ont")) {
+            Form tmpForm = new Form("modify");
+            Input hiddenInput = new Input();
+            hiddenInput.setType("Hidden");
+            hiddenInput.setName("name");
+            hiddenInput.setValue(headerData.getName());
+            tmpForm.appendChild(hiddenInput);
+            tmpForm.appendChild(buildDropDown(headerData.getMaxValueAsString()));
+            tmpDiv.appendChild(tmpForm);
+        }
         return tmpDiv;
     }
 
@@ -176,13 +183,13 @@ public class QueueState {
 
     }
 
-    public QueueState setError(String error) {
+    QueueState setError(String error) {
         errorDiv.appendText(error);
         return this;
     }
 
 
-    public String getQueueState() {
+    String getQueueState() {
         return document.write();
     }
 
@@ -192,18 +199,18 @@ public class QueueState {
         int curentValue;
         int maxValue;
 
-        public String getHeaderName() {
+        String getHeaderName() {
             return name + " " + subname + " " + Integer.toString(curentValue) + "/" + Integer.toString(maxValue);
         }
 
-        public HeaderInformation(String name, String subname, int curentValue, int maxValue) {
+        HeaderInformation(String name, String subname, int curentValue, int maxValue) {
             this.name = name;
             this.subname = subname;
             this.curentValue = curentValue;
             this.maxValue = maxValue;
         }
 
-        public HeaderInformation(String name, int curentValue, int maxValue) {
+        HeaderInformation(String name, int curentValue, int maxValue) {
             this.name = name;
             this.curentValue = curentValue;
             this.maxValue = maxValue;
@@ -214,7 +221,7 @@ public class QueueState {
             return name;
         }
 
-        public String getMaxValueAsString() {
+        String getMaxValueAsString() {
             return Integer.toString(maxValue);
         }
     }

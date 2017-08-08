@@ -37,11 +37,7 @@ dependencies {
     compile 'com.sun.jersey:jersey-server:1.8'
     compile 'com.sun.jersey:jersey-json:1.8'
     compile 'com.hp.gagawa:gagawa:1.0.1'
-
-    // Declare the dependency for your favourite test framework you want to use in your tests.
-    // TestNG is also supported by the Gradle Test task. Just change the
-    // testCompile dependency to testCompile 'org.testng:testng:6.8.1' and add
-    // 'test.useTestNG()' to your build script.
+    compile group: 'commons-net', name: 'commons-net', version: '3.6'
     testCompile "junit:junit:4.11"
     testCompile 'org.assertj:assertj-core:2.0.0'
 }

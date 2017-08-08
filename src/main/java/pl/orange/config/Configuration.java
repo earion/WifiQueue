@@ -1,6 +1,5 @@
 package pl.orange.config;
 
-import pl.orange.queueComposite.Host;
 import pl.orange.queueComposite.HostListAgregate;
 import pl.orange.response.RestResponse;
 import pl.orange.util.ExceptionMessages;
@@ -26,9 +25,11 @@ public class Configuration {
             StringBuilder sb = new StringBuilder();
             for(Map.Entry<String,ConfigurationEntry> entry :  ConfigurationManager.getInstance().getConfiguration().entrySet()) {
                 sb.append(entry.getValue().getName() + " " +
-                        "\n  size: " + entry.getValue().getSize() + " " +
+                        "\n  size: " +entry.getValue().getSize() + " " +
                         "\n  inner: " +entry.getValue().getInner() + " " +
                         "\n  type: " +entry.getValue().getType() + " " +
+                        "\n  slot: " +entry.getValue().getSlot() + " " +
+                        "\n  configuration: "+ entry.getValue().getConfiguration() + " " +
                         "\n");
             }
             return sb.toString();
