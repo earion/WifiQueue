@@ -37,7 +37,10 @@ dependencies {
     compile 'com.sun.jersey:jersey-server:1.8'
     compile 'com.sun.jersey:jersey-json:1.8'
     compile 'com.hp.gagawa:gagawa:1.0.1'
+    compile group: 'net.schmizz', name: 'sshj', version: '0.10.0'
+    compile "net.schmizz:sshj:'0.10.0:javadoc"
     compile group: 'commons-net', name: 'commons-net', version: '3.6'
+
     testCompile "junit:junit:4.11"
     testCompile 'org.assertj:assertj-core:2.0.0'
 }

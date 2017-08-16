@@ -1,5 +1,7 @@
 package pl.orange.isamConfiguration.connection;
 
+import java.io.IOException;
+
 abstract class IsamConnectionAbstract implements IsamConnectable {
 
 
@@ -18,6 +20,8 @@ abstract class IsamConnectionAbstract implements IsamConnectable {
     protected String getConnectionDestination() {
         return connectionDestination;
     }
+
+    public abstract void disconnect() throws IOException, InterruptedException;
 
     private String conectionType;
     private String user;

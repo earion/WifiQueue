@@ -1,29 +1,31 @@
 package pl.orange.isamConfiguration;
 
 import org.apache.commons.lang.StringUtils;
+import pl.orange.util.ExceptionMessages;
 import pl.orange.util.HostListException;
+
+import java.io.IOException;
 
 public class OntRegistrator {
 
-    private final Object test;
     String ontId;
     String slot;
 
 
-    public OntRegistrator(int ontId, int slot, boolean test) {
+    public OntRegistrator(int ontId, int slot) throws IOException {
         this.ontId = Integer.toString(ontId);
         this.slot = Integer.toString(slot);
-        this.test = test;
     }
 
 
 
     public String register(String serialNumber) throws HostListException{
+        if(!serialNumber.matches("^[A-Z]{4}\\d{8}$")) {
+            throw new HostListException(ExceptionMessages.SERIAL_NUMBER_DO_NOT_MATCH_PREFIX,"Serial number " + serialNumber + " format must be XXXXDDDDDDDD");
+        }
         StringBuilder commands = new StringBuilder();
         commands.append(downPort());
-        commands.append("\n");
         commands.append(configureSernum(serialNumber));
-        commands.append("\n");
         commands.append(upPort());
         return commands.toString();
     }
@@ -46,12 +48,12 @@ public class OntRegistrator {
 
     //configure equipment ont interface 1/1/8/1/2 admin-state up
     private String upPort() {
-        return managePortState() + "up";
+        return managePortState() + "up\n";
     }
 
     //configure equipment ont interface 1/1/8/1/2 admin-state down
     private String downPort() {
-        return managePortState() +"down";
+        return managePortState() +"down\n";
     }
 
     //configure equipment ont interface 1/1/8/1/2 sernum SMBS:21000936 sw-ver-pland disabled fec-up enable enable-aes enable
@@ -59,7 +61,7 @@ public class OntRegistrator {
         StringBuilder tmp = new StringBuilder();
         tmp.append(managePortState());
         tmp.append(prepareSerialNUmber(serialNumber));
-        tmp.append("sw-ver-pland disabled fec-up enable enable-aes enable");
+        tmp.append(" sw-ver-pland disabled fec-up enable enable-aes enable\n");
         return tmp.toString();
     }
 

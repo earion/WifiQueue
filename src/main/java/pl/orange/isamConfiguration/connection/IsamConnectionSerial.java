@@ -1,5 +1,7 @@
 package pl.orange.isamConfiguration.connection;
 
+import java.io.IOException;
+
 public class IsamConnectionSerial extends IsamConnectionAbstract implements IsamConnectable {
 
 
@@ -13,12 +15,14 @@ public class IsamConnectionSerial extends IsamConnectionAbstract implements Isam
     }
 
     @Override
-    public int sendCommand(String command) {
-        return 0;
-    }
-
-    @Override
-    public String getResponse() {
+    public String sendCommand(String command) throws IOException {
         return null;
     }
+
+
+    @Override
+    public void disconnect() {
+
+    }
+
 }

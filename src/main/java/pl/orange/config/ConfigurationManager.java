@@ -59,6 +59,17 @@ public class ConfigurationManager {
         configMap = loadConfigurationFromFile();
     }
 
+
+    public ArrayList<ConfigurationEntry> getQuesBySpecyficType(String type) {
+        ArrayList<ConfigurationEntry> tmpList = new ArrayList<>();
+        for(Map.Entry<String,ConfigurationEntry> entry : configMap.entrySet()) {
+            if(entry.getValue().getType().equals(type)) {
+                tmpList.add(entry.getValue());
+            }
+        }
+        return tmpList;
+    }
+
     public HashMap<String,ConfigurationEntry> loadConfigurationFromFile() {
         HashMap<String, ConfigurationEntry> returnedMap = new HashMap<>();
         ConfigurationEntry tmp;
