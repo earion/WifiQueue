@@ -40,6 +40,7 @@ dependencies {
     compile group: 'net.schmizz', name: 'sshj', version: '0.10.0'
     compile "net.schmizz:sshj:'0.10.0:javadoc"
     compile group: 'commons-net', name: 'commons-net', version: '3.6'
+    testCompile 'pl.pragmatists:JUnitParams:1.0.4'
 
     testCompile "junit:junit:4.11"
     testCompile 'org.assertj:assertj-core:2.0.0'

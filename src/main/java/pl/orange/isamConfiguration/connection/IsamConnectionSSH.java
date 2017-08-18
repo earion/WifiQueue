@@ -21,19 +21,14 @@ public class IsamConnectionSSH  extends IsamConnectionAbstract implements IsamCo
         super(connectionParameters);
         sshClient = new JSch();
         try {
-
-
             session = sshClient.getSession(this.getUser(), this.getConnectionDestination());
             session.setPassword(this.getPassword());
             Hashtable<String,String> sessionConfig = new Hashtable<>();
             sessionConfig.put("StrictHostKeyChecking", "no");
             session.setConfig(sessionConfig);
-
         } catch (JSchException e) {
             throw new HostListException(ExceptionMessages.SSH_FAILURE,e.getMessage());
         }
-
-
     }
 
     @Override
@@ -49,7 +44,6 @@ public class IsamConnectionSSH  extends IsamConnectionAbstract implements IsamCo
     @Override
     public String sendCommand(String command) throws HostListException {
         StringBuilder outputBuffer = new StringBuilder();
-
         try
         {
             System.out.println(session.getServerVersion() + " " + session.getTimeout());
@@ -60,29 +54,21 @@ public class IsamConnectionSSH  extends IsamConnectionAbstract implements IsamCo
             channel.setCommand(command);
             channel.connect();
             channel.setPty(true);
-
             Thread.sleep(10000);
             String msg=null;
             while((msg=in.readLine())!=null){
                 System.out.println(msg);
             }
-
             while((msg=err.readLine())!=null){
                 System.out.println(msg);
             }
-
-
-
             channel.disconnect();
         }
-        catch(IOException  | InterruptedException| JSchException e)
-        {
+        catch(IOException  | InterruptedException| JSchException e)  {
             throw new HostListException(ExceptionMessages.SSH_FAILURE,e.getMessage());
 
         }
         return outputBuffer.toString();
-
-
     }
 
 

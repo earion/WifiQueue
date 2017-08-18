@@ -9,8 +9,8 @@ public interface IsamConnectable {
 
 
     public void setConnection() throws IOException, HostListException;
-    public String sendCommand(String command) throws IOException, HostListException;
-    public void disconnect() throws IOException, InterruptedException;
+    public String sendCommand(String command) throws  HostListException,IOException;
+    public void disconnect() throws IOException;
 
 
 

@@ -1,10 +1,14 @@
 package pl.orange.queueComposite;
 
 import org.apache.log4j.Logger;
+import pl.orange.isamConfiguration.OntRegistrator;
 import pl.orange.util.ExceptionMessages;
 import pl.orange.util.HostListException;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.Map;
 
 
 public class OntListComponent extends HostListComponent {
@@ -67,6 +71,13 @@ public class OntListComponent extends HostListComponent {
         if(!ontPoole.containsKey(item)) {
             throw new HostListException(ExceptionMessages.NOT_PRESENT, item.getName() + " is not present on list " + getName());
         }
+        try {
+            OntRegistrator ontr = new OntRegistrator(oltId, ontPoole.get(item));
+            ontr.unregisterONT();
+        } catch (NullPointerException   e)
+        {
+            throw new HostListException(ExceptionMessages.DSLAM_CONNECTION_ISSUE,e.getClass().getName());
+        }
         ocupiedSlots.add(ontPoole.get(item),false);
         ontPoole.remove(item);
     }
@@ -77,6 +88,13 @@ public class OntListComponent extends HostListComponent {
         int freeSlotId = findFirstFreeSlot();
         if(freeSlotId == 0)   throw new HostListException(ExceptionMessages.WAIT,"List " + getName() + " if full, impossible to add " + item.getName());
         if(findFirstFreeSlot() != 0) {
+            try {
+                OntRegistrator ontr = new OntRegistrator(oltId,freeSlotId);
+                ontr.registerONT(item.getName());
+            } catch (NullPointerException   e)
+            {
+                throw new HostListException(ExceptionMessages.DSLAM_CONNECTION_ISSUE,e.getClass().getName());
+            }
             ontPoole.put(item, freeSlotId);
             ocupiedSlots.add(freeSlotId,true);
             log.info("add ONT from " + item.getName() + " to " + getName() + " " + freeSlotId);

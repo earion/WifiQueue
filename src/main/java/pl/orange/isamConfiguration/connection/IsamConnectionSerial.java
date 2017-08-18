@@ -1,11 +1,11 @@
 package pl.orange.isamConfiguration.connection;
 
-import java.io.IOException;
+import pl.orange.util.HostListException;
 
 public class IsamConnectionSerial extends IsamConnectionAbstract implements IsamConnectable {
 
 
-    public IsamConnectionSerial(String connectionParameters) {
+    IsamConnectionSerial(String connectionParameters) {
         super(connectionParameters);
     }
 
@@ -15,7 +15,7 @@ public class IsamConnectionSerial extends IsamConnectionAbstract implements Isam
     }
 
     @Override
-    public String sendCommand(String command) throws IOException {
+    public String sendCommand(String command) throws HostListException {
         return null;
     }
 

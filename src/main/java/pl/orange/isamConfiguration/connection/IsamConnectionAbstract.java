@@ -9,19 +9,19 @@ abstract class IsamConnectionAbstract implements IsamConnectable {
         return conectionType;
     }
 
-    protected String getUser() {
+    String getUser() {
         return user;
     }
 
-    protected String getPassword() {
+    String getPassword() {
         return password;
     }
 
-    protected String getConnectionDestination() {
+    String getConnectionDestination() {
         return connectionDestination;
     }
 
-    public abstract void disconnect() throws IOException, InterruptedException;
+    public abstract void disconnect() throws IOException;
 
     private String conectionType;
     private String user;
@@ -29,7 +29,7 @@ abstract class IsamConnectionAbstract implements IsamConnectable {
     private String connectionDestination;
 
 
-    public IsamConnectionAbstract(String connectionParameters) {
+    IsamConnectionAbstract(String connectionParameters) {
         parseParameters(connectionParameters);
 
     }
