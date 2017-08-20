@@ -15,13 +15,18 @@ public class IsamConnectionTelnet extends  IsamConnectionAbstract implements Isa
     private PrintWriter out = null;
     private BufferedReader in = null;
     private boolean isLoggedIn = false;
+    private int port;
 
     @Override
     public void setConnection() throws IOException {
-        telnetSocket = new Socket(this.getConnectionDestination(), 23);
+        telnetSocket = new Socket(this.getConnectionDestination(), port);
         out = new PrintWriter(telnetSocket.getOutputStream(), true);
         in = new BufferedReader(new InputStreamReader(telnetSocket.getInputStream()));
     }
+
+
+
+
 
     @Override
     public String sendCommand(String command) throws IOException {
@@ -98,7 +103,12 @@ public class IsamConnectionTelnet extends  IsamConnectionAbstract implements Isa
 
     IsamConnectionTelnet(String connectionParameters) {
         super(connectionParameters);
+        port = 23;
+    }
 
+    IsamConnectionTelnet(String connectionParameters,int port) {
+        super(connectionParameters);
+        this.port = port;
     }
 
 
