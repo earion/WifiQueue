@@ -78,7 +78,7 @@ public class IsamConnectionTelnet extends  IsamConnectionAbstract implements Isa
                 return true;
             }
         } catch (IOException e) {
-
+            e.printStackTrace();
         }
         return false;
     }

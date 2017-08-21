@@ -9,7 +9,7 @@ import java.io.IOException;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 
-public class IsamTelnetTestIntegration {
+public class IsamConnectionTelnetTestIntegration {
 
     private IsamConnectionTelnet ict;
 

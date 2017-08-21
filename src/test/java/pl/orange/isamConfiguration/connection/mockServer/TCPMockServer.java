@@ -1,4 +1,4 @@
-package pl.orange.isamConfiguration.connection.Connection;
+package pl.orange.isamConfiguration.connection.mockServer;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -15,7 +15,7 @@ public class TCPMockServer {
             final ServerSocket listenSocket = new ServerSocket(serverPort);
             System.out.println("server start listening... ... ...");
 
-            (new Thread() {
+            new Thread() {
                 public void run() {
                     while(true) {
                         Socket clientSocket = null;
@@ -27,7 +27,7 @@ public class TCPMockServer {
                         Connection c = new Connection(clientSocket);
                     }
                 }
-            }).start();
+            }.start();
 
 
 
