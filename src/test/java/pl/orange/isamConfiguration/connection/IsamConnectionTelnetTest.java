@@ -4,7 +4,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import pl.orange.isamConfiguration.connection.Connection.TCPMockServer;
+import pl.orange.isamConfiguration.connection.mockServer.TCPMockServer;
 
 import java.io.IOException;
 
@@ -31,6 +31,7 @@ public class IsamTelnetTest {
 
     @BeforeClass
     public static void initialization() {
+
         TCPMockServer telnetServer = new TCPMockServer(2000);
     }
 
