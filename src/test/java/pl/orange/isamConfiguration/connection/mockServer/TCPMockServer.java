@@ -1,38 +1,35 @@
 package pl.orange.isamConfiguration.connection.mockServer;
 
+import org.apache.log4j.Logger;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-/**
- * Created by mateusz on 20.08.17.
- */
+
 public class TCPMockServer {
+
+    private static final Logger log = Logger.getLogger(TCPMockServer.class);
 
     public TCPMockServer(int serverPort) {
         try{
-
             final ServerSocket listenSocket = new ServerSocket(serverPort);
-            System.out.println("server start listening... ... ...");
-
+           log.info("TCPMockServer start listening... on port " + serverPort);
             new Thread() {
                 public void run() {
                     while(true) {
-                        Socket clientSocket = null;
+                        Socket clientSocket;
                         try {
                             clientSocket = listenSocket.accept();
+                            new DdslamTelnetEmulatorThread(clientSocket);
                         } catch (IOException e) {
-                            e.printStackTrace();
+                            log.error(e.getMessage());
                         }
-                        Connection c = new Connection(clientSocket);
                     }
                 }
             }.start();
-
-
-
         }
         catch(IOException e) {
-            System.out.println("Listen :"+e.getMessage());}
+            log.error("Listen :"+e.getMessage());}
     }
 }

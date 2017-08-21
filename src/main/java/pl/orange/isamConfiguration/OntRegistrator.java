@@ -34,13 +34,13 @@ public class OntRegistrator {
         IsamConfigurator.getInstance().sendConfiguration(commands);
     }
 
-    public void unregisterONT() throws HostListException {
+    void unregisterONT() throws HostListException {
         String commands = preperareUnregisterCommands();
         IsamConfigurator.getInstance().sendConfiguration(commands);
 
     }
 
-    public String preperareUnregisterCommands() throws HostListException {
+    String preperareUnregisterCommands() throws HostListException {
        return downPort();
     }
 

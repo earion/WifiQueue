@@ -31,7 +31,6 @@ public class IsamConnectionTelnetTest {
 
     @BeforeClass
     public static void initialization() {
-
         TCPMockServer telnetServer = new TCPMockServer(2000);
     }
 

@@ -4,6 +4,7 @@ import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
+import org.apache.log4j.Logger;
 import pl.orange.util.ExceptionMessages;
 import pl.orange.util.HostListException;
 
@@ -12,14 +13,15 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Hashtable;
 
-public class IsamConnectionSSH  extends IsamConnectionAbstract implements IsamConnectable    {
+class IsamConnectionSSH  extends IsamConnectionAbstract implements IsamConnectable    {
 
-    private final JSch sshClient;
+    private static final Logger log = Logger.getLogger(IsamConnectionSSH.class);
+
     private final Session session;
 
-    public IsamConnectionSSH(String connectionParameters) throws HostListException {
+    IsamConnectionSSH(String connectionParameters) throws HostListException {
         super(connectionParameters);
-        sshClient = new JSch();
+        JSch sshClient = new JSch();
         try {
             session = sshClient.getSession(this.getUser(), this.getConnectionDestination());
             session.setPassword(this.getPassword());
@@ -55,12 +57,12 @@ public class IsamConnectionSSH  extends IsamConnectionAbstract implements IsamCo
             channel.connect();
             channel.setPty(true);
             Thread.sleep(10000);
-            String msg=null;
+            String msg;
             while((msg=in.readLine())!=null){
-                System.out.println(msg);
+                log.info(msg);
             }
             while((msg=err.readLine())!=null){
-                System.out.println(msg);
+                log.info(msg);
             }
             channel.disconnect();
         }

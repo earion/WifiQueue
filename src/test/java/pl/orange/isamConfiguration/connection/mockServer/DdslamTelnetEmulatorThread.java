@@ -1,17 +1,19 @@
 package pl.orange.isamConfiguration.connection.mockServer;
 
+import org.apache.log4j.Logger;
+
 import java.io.*;
 import java.net.Socket;
 
-/**
- * Created by mateusz on 20.08.17.
- */
-public class Connection extends Thread {
+class DdslamTelnetEmulatorThread extends Thread {
+
+    private static final Logger log = Logger.getLogger(DdslamTelnetEmulatorThread.class);
+
     private BufferedReader input;
     private PrintWriter output;
     private Socket clientSocket;
 
-    Connection (Socket aClientSocket) {
+    DdslamTelnetEmulatorThread(Socket aClientSocket) {
         try {
             clientSocket = aClientSocket;
             input = new BufferedReader(new InputStreamReader( clientSocket.getInputStream()));
@@ -19,13 +21,13 @@ public class Connection extends Thread {
             this.start();
         }
         catch(IOException e) {
-            System.out.println("mockServer:"+e.getMessage());
+            log.error("mockServer:"+e.getMessage());
         }
     }
 
     public void run() {
-        try { // an echo server
-            System.out.println("Created new connection...");
+        try {
+            log.info("Created new connection...");
             output.println("login:");
             while(true) {
                 String whatUserWrite = input.readLine();
@@ -40,15 +42,14 @@ public class Connection extends Thread {
 
         }
         catch(EOFException e) {
-            System.out.println("EOF:"+e.getMessage()); }
+            log.error("EOF:"+e.getMessage()); }
         catch(IOException e) {
-            System.out.println("IO:"+e.getMessage());}
+            log.error("IO:"+e.getMessage());}
         finally {
             try {
                 input.close();
                 output.close();
                 clientSocket.close();
-                return;
             }
             catch (IOException e){/*close failed*/}
         }
@@ -61,7 +62,7 @@ public class Connection extends Thread {
                 break;
             }
             case "ANS#150" : {
-                output.println("DATA");
+                output.println("Today is 1960-01-01");
                 output.println("");
                 output.println("Welcome to test environment");
                 output.println("typ:isadmin># ");

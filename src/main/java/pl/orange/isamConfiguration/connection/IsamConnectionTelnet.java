@@ -1,6 +1,7 @@
 package pl.orange.isamConfiguration.connection;
 
 import org.apache.commons.io.LineIterator;
+import org.apache.log4j.Logger;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -8,8 +9,9 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-public class IsamConnectionTelnet extends  IsamConnectionAbstract implements IsamConnectable {
+class IsamConnectionTelnet extends  IsamConnectionAbstract implements IsamConnectable {
 
+    private static final Logger log = Logger.getLogger(IsamConnectable.class);
 
     private Socket telnetSocket = null;
     private PrintWriter out = null;
@@ -24,10 +26,6 @@ public class IsamConnectionTelnet extends  IsamConnectionAbstract implements Isa
         in = new BufferedReader(new InputStreamReader(telnetSocket.getInputStream()));
     }
 
-
-
-
-
     @Override
     public String sendCommand(String command) throws IOException {
         authorize();
@@ -39,7 +37,6 @@ public class IsamConnectionTelnet extends  IsamConnectionAbstract implements Isa
         }
         return readOutputWithIterator();
     }
-
 
     boolean authorize() throws IOException {
         for(int i=0;i<2;i++) {
@@ -58,19 +55,17 @@ public class IsamConnectionTelnet extends  IsamConnectionAbstract implements Isa
         return false;
     }
 
-
-
     private boolean tryAuthorize() {
         if(isLoggedIn) {
             return true;
         }
         try {
-            System.out.println(in.readLine());
+            log.info(in.readLine());
             out.println(this.getUser());
-            System.out.println(in.readLine());
+            log.info(in.readLine());
             out.println(this.getPassword());
-            System.out.println(in.readLine());
-            System.out.println(in.readLine());
+            log.info(in.readLine());
+            log.info(in.readLine());
             String out = readOutputWithIterator();
             if (out.contains("Welcome") || out.contains("alarm")) {
                 readOutputWithIterator();
@@ -78,14 +73,13 @@ public class IsamConnectionTelnet extends  IsamConnectionAbstract implements Isa
                 return true;
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
         }
         return false;
     }
 
-
     private void sendTelnetCommand(String command) throws IOException {
-        System.out.println(command);
+        log.info(command);
         out.println(command);
     }
 
@@ -126,7 +120,7 @@ public class IsamConnectionTelnet extends  IsamConnectionAbstract implements Isa
                 sb.append(line).append("\n");
             }
 
-        System.out.println(sb.toString());
+       log.info(sb.toString());
         return sb.toString();
     }
 

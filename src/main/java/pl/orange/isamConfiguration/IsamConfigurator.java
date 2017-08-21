@@ -1,22 +1,21 @@
 package pl.orange.isamConfiguration;
 
+import org.apache.log4j.Logger;
 import pl.orange.config.ConfigurationManager;
 import pl.orange.isamConfiguration.connection.IsamConnectable;
 import pl.orange.isamConfiguration.connection.IsamConnectionFactory;
 import pl.orange.util.ExceptionMessages;
 import pl.orange.util.HostListException;
 
-import java.io.*;
+import java.io.IOException;
 
-public class IsamConfigurator {
+class IsamConfigurator {
 
+    private static IsamConfigurator instance;
+    private IsamConnectable isam;
+    private static final Logger log = Logger.getLogger(IsamConfigurator.class);
 
-private static IsamConfigurator instance;
-private IsamConnectable isam;
-
-
-
-    public static IsamConfigurator getInstance() throws HostListException {
+    static IsamConfigurator getInstance() throws HostListException {
         if(instance==null) {
             synchronized (ConfigurationManager.class) {
                 if (instance == null) {
@@ -27,9 +26,8 @@ private IsamConnectable isam;
         return instance;
     }
 
-
     private IsamConfigurator() throws HostListException {
-        String isamConfiguration = null;
+        String isamConfiguration;
         try {
             isamConfiguration = getIsamConnectionParameters();
         } catch (IOException e) {
@@ -38,7 +36,6 @@ private IsamConnectable isam;
         isam = IsamConnectionFactory.build(isamConfiguration);
     }
 
-
     private String getIsamConnectionParameters() throws IOException {
         return ConfigurationManager
                 .getInstance()
@@ -46,16 +43,15 @@ private IsamConnectable isam;
                 .getConfiguration();
     }
 
-
-
-    public void sendConfiguration(String commands) throws HostListException {
+    void sendConfiguration(String commands) throws HostListException {
         try {
+            log.info("Sending command:" + commands);
             isam.setConnection();
             String out = isam.sendCommand(commands);
             if(out.contains("invalid token")) {
                 throw new HostListException(ExceptionMessages.DSLAM_CONNECTION_ISSUE,out);
             }
-            System.out.println(out);
+            log.info("Received output " +out);
             isam.disconnect();
         } catch (IOException   e) {
             throw new HostListException(ExceptionMessages.DSLAM_CONNECTION_ISSUE,e.getMessage());

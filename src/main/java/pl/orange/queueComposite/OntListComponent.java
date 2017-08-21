@@ -13,7 +13,6 @@ import java.util.Map;
 
 public class OntListComponent extends HostListComponent {
 
-
     private static final Logger log = Logger.getLogger(OntListComponent.class);
 
     private int oltId;
@@ -71,13 +70,6 @@ public class OntListComponent extends HostListComponent {
         if(!ontPoole.containsKey(item)) {
             throw new HostListException(ExceptionMessages.NOT_PRESENT, item.getName() + " is not present on list " + getName());
         }
-        try {
-            OntRegistrator ontr = new OntRegistrator(oltId, ontPoole.get(item));
-            ontr.unregisterONT();
-        } catch (NullPointerException   e)
-        {
-            throw new HostListException(ExceptionMessages.DSLAM_CONNECTION_ISSUE,e.getClass().getName());
-        }
         ocupiedSlots.add(ontPoole.get(item),false);
         ontPoole.remove(item);
     }
@@ -91,14 +83,12 @@ public class OntListComponent extends HostListComponent {
             try {
                 OntRegistrator ontr = new OntRegistrator(oltId,freeSlotId);
                 ontr.registerONT(item.getName());
-            } catch (NullPointerException   e)
-            {
+            } catch (NullPointerException   e) {
                 throw new HostListException(ExceptionMessages.DSLAM_CONNECTION_ISSUE,e.getClass().getName());
             }
             ontPoole.put(item, freeSlotId);
             ocupiedSlots.add(freeSlotId,true);
             log.info("add ONT from " + item.getName() + " to " + getName() + " " + freeSlotId);
-
         }
         return freeSlotId;
     }
