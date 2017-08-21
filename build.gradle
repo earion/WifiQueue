@@ -15,7 +15,10 @@ apply plugin: 'war'
 
 sourceCompatibility = 1.7
 
-
+test {
+    exclude '**/*Integration*'
+    exclude '**/*OntListComponentTest*'
+}
 
 
 // In this section you declare where to find the dependencies of your project
@@ -41,7 +44,7 @@ dependencies {
     compile "net.schmizz:sshj:'0.10.0:javadoc"
     compile group: 'commons-net', name: 'commons-net', version: '3.6'
     testCompile 'pl.pragmatists:JUnitParams:1.0.4'
-
+    testCompile 'org.mockito:mockito-core:2.7.22'
     testCompile "junit:junit:4.11"
     testCompile 'org.assertj:assertj-core:2.0.0'
 }

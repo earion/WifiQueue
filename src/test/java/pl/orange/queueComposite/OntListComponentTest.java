@@ -2,12 +2,18 @@ package pl.orange.queueComposite;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.junit.MockitoJUnitRunner;
 import pl.orange.util.ExceptionMessages;
 import pl.orange.util.HostListException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@RunWith(MockitoJUnitRunner.class)
 public class OntListComponentTest {
+
+
+
 
     private  OntListComponent olc;
 
@@ -39,10 +45,11 @@ public class OntListComponentTest {
 
     @Test
     public void shouldAddTwoItems() throws Exception {
+
         //given
-        Host host1 = new Host("L2-02-01", "empty");
-        Host host2 = new Host("L2-02-02", "empty");
-        Host host3 = new Host("L2-02-03", "empty");
+        Host host1 = new Host("SMBS12345671", "empty");
+        Host host2 = new Host("SMBS12345672", "empty");
+        Host host3 = new Host("SMBS12345673", "empty");
         //when
         olc.addItem(host1);
         olc.addItem(host2);
@@ -54,7 +61,7 @@ public class OntListComponentTest {
 
     @Test
     public void shouldNotAddTwoItemsWithSameName() throws Exception {
-        String errorHost = "L2-01-03";
+        String errorHost = "SMBS12345678";
         olc.addItem(new Host(errorHost, "empty"));
         try {
             olc.addItem(new Host(errorHost, "empty"));
@@ -71,7 +78,7 @@ public class OntListComponentTest {
     @Test
     public void ShouldaddOneItem() throws Exception {
         //Given
-        Host host = new Host("L2-01-01", "empty");
+        Host host = new Host("SMBS12345678", "empty");
         //when
         int slotNumber = olc.addItem(host);
         //then
@@ -82,12 +89,12 @@ public class OntListComponentTest {
     @Test
     public void removeAllItems() throws Exception {
         //given
-        Host host1 = new Host("L2-02-01", "empty");
-        Host host2 = new Host("L2-02-02", "empty");
+        Host host1 = new Host("SMBS12345671", "empty");
+        Host host2 = new Host("SMBS12345672", "empty");
         olc.addItem(host1);
         olc.addItem(host2);
         olc.removeAllItems();
-        Host host3 = new Host("L2-02-02", "empty");
+        Host host3 = new Host("SMBS12345672", "empty");
         assertThat(olc.getSize()).isEqualTo(0);
         assertThat(olc.addItem(host3)).isEqualTo(1);
     }

@@ -10,8 +10,9 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
-
 public class OntListComponent extends HostListComponent {
+
+
 
     private static final Logger log = Logger.getLogger(OntListComponent.class);
 
@@ -21,6 +22,7 @@ public class OntListComponent extends HostListComponent {
     private LinkedHashMap<HostListComponent,Integer> ontPoole;
 
     private ArrayList<Boolean> ocupiedSlots;
+    private OntRegistrator ontr;
 
     public int getOltId() {
         return oltId;
@@ -81,7 +83,7 @@ public class OntListComponent extends HostListComponent {
         if(freeSlotId == 0)   throw new HostListException(ExceptionMessages.WAIT,"List " + getName() + " if full, impossible to add " + item.getName());
         if(findFirstFreeSlot() != 0) {
             try {
-                OntRegistrator ontr = new OntRegistrator(oltId,freeSlotId);
+                ontr = new OntRegistrator(oltId,freeSlotId);
                 ontr.registerONT(item.getName());
             } catch (NullPointerException   e) {
                 throw new HostListException(ExceptionMessages.DSLAM_CONNECTION_ISSUE,e.getClass().getName());

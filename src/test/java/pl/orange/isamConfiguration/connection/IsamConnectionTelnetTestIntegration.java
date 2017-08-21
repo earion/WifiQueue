@@ -45,4 +45,7 @@ public class IsamConnectionTelnetTestIntegration {
             fail(e.getMessage());
         }
     }
+
+
+
 }

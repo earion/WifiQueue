@@ -6,14 +6,13 @@ import pl.orange.util.HostListException;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 
-public class ontRegistratorTest {
+public class OntRegistratorTest {
 
     @Test(expected = HostListException.class)
     public void setNosPossibleSn() throws Exception {
         OntRegistrator ontReg = new OntRegistrator(1,1);
         ontReg.prepareRegisterCommands("niepoprawna nazwa");
     }
-
 
     @Test
     public void setPossibleSn() throws Exception {
@@ -41,28 +40,4 @@ public class ontRegistratorTest {
         assertThat(output).isEqualTo("configure equipment ont interface 1/1/8/1/1 admin-state down\n");
     }
 
-    @Test
-    public void ontRegistrationIntegrationTest() throws Exception {
-        OntRegistrator ontReg = new OntRegistrator(1,1);
-        ontReg.registerONT("SMBS12345678");
-    }
-
-    @Test
-    public void ontUnregisterIntegrationTest() throws Exception {
-        OntRegistrator ontReg = new OntRegistrator(1,1);
-        ontReg.unregisterONT();
-    }
-
-    @Test
-    public void TestReperatibilityOntRegistration() throws Exception {
-            try {
-                OntRegistrator ontReg = new OntRegistrator(1, 1);
-                ontReg.registerONT("SMBS12345679");
-                ontReg.unregisterONT();
-
-            } catch (NullPointerException e) {
-                e.printStackTrace();
-                fail("NULL");
-            }
-    }
 }
