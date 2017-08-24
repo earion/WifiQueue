@@ -22,6 +22,8 @@ public class OntListComponent extends HostListComponent {
     private LinkedHashMap<HostListComponent,Integer> ontPoole;
 
     private ArrayList<Boolean> ocupiedSlots;
+
+
     private OntRegistrator ontr;
 
     public int getOltId() {
@@ -37,7 +39,10 @@ public class OntListComponent extends HostListComponent {
     }
 
 
-
+    public OntListComponent()
+    {
+        super("void");
+    }
 
     OntListComponent(String name,int oltId, int size) {
         super(name);

@@ -3,19 +3,26 @@ package pl.orange.queueComposite;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import pl.orange.isamConfiguration.OntRegistrator;
 import pl.orange.util.ExceptionMessages;
 import pl.orange.util.HostListException;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.doNothing;
 
 @RunWith(MockitoJUnitRunner.class)
 public class OntListComponentTest {
 
 
+    @Mock
+    OntRegistrator ontr;
 
 
-    private  OntListComponent olc;
+    @InjectMocks
+    private OntListComponent olc;
 
 
     @Before
@@ -27,7 +34,9 @@ public class OntListComponentTest {
     @Test
     public void removeItem() throws Exception {
         //given
-        Host host1 = new Host("L2-02-01", "empty");
+        Host host1 = new Host("SMBS12345671", "empty");
+        doNothing().when(ontr).registerONT("SMBS12345671");
+
         //when
         olc.addItem(host1);
         olc.removeItem(host1);

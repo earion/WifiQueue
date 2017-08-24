@@ -78,4 +78,5 @@ public class OntRegistrator {
        return  StringUtils.substring(serialNumber, 0, 4) + ":" + StringUtils.substring(serialNumber, 4, 13);
     }
 
+
 }
