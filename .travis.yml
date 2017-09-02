@@ -9,6 +9,8 @@ cache:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
 script:
+  exec gradle clean
+  exec gradle test
   exec gradle war
 deploy:
   provider: pages
