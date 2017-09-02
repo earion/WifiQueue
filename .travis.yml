@@ -10,3 +10,9 @@ cache:
     - $HOME/.gradle/wrapper/
 script:
   exec gradle war
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: "affd4de211040a7f7a3299214cb36f99c8e6910d"
+  on:
+    branch: master
