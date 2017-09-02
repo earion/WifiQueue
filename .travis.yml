@@ -1,8 +1,10 @@
 language: java
 jdk:
   - openjdk7
-after_success:
-    - bash <(curl -s https://codecov.io/bash)
+test:
+    post:
+    gradle jacocoTestReport
+    - bash <(curl -s https://codecov.io/bash) -t 94db600f-7865-42f1-b182-d008b59613ab
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
   - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
@@ -11,7 +13,7 @@ cache:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
 script:
-   gradle clean test war
+   gradle clean test jacocoTestReport war
 deploy:
   provider: releases
   overwrite: true
