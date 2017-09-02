@@ -6,7 +6,6 @@ import static org.assertj.core.api.Assertions.fail;
 
 public class OntRegistratorIntegrationTest {
 
-
     @Test
     public void ontRegistrationIntegrationTest() throws Exception {
         OntRegistrator ontReg = new OntRegistrator(1,1);
