@@ -1,9 +1,8 @@
 language: java
 jdk:
   - openjdk7
-test:
-    post:
-    - bash <(curl -s https://codecov.io/bash -t 94db600f-7865-42f1-b182-d008b59613ab)
+after_success:
+    - bash <(curl -s https://codecov.io/bash)
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
   - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
