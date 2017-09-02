@@ -16,7 +16,6 @@ deploy:
   provider: releases
   overwrite: true
   skip_cleanup: true
-  github_token: $GITHUB_KEY
+  api-key: $GITHUB_KEY
   on:
     tags: true
-
