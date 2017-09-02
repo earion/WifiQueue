@@ -18,3 +18,4 @@ deploy:
   file: build/libs/HostsQueue.war
   on:
     repo: earion/WifiQueue
+    all_branches: true
