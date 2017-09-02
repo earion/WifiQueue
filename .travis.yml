@@ -3,6 +3,7 @@ jdk:
 - openjdk7
 after_success:
 - bash <(curl -s https://codecov.io/bash)
+- bash (ls)
 before_cache:
 - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
 - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
@@ -15,7 +16,7 @@ deploy:
   provider: releases
   api_key:
     secure: l0dwvT83Bb+6Uq8i9La75nMRFIgDXrH7xdxijQ6nt3yoEWRga0QeISPDfv2SQ1MtM8IQ9EbLVaRlhoBRYK8Ips4qjWmVFNXZUnnDblZJRgY9hb2ZiaKj7w0wnYxgX1MN1ZmpPFIkjgsEcYY3hWimph4K+d9UD0z0AHsYnBTofejj7bztSVkewc1BhrEToXQNUqezPpa/U6OQGV017gi41XhX9lhHpf3yNnvmzXS083zVMSugbLFl+J1WpZbLMKtJYeNNo04nE78N7/12ECg5jU/tRhPsrRwKPL4f/SPNKPL9BU/tTPUp2JO1mYNlUyYcTWkuaQsuYfLxxKstFlA//bPlcOnnGpGvwTGxavMMw6S2jo7JzCvZrIVbVz9wFAOeDnwMhJ6iPbqdosyS3CfYSfUnPqtpIMoU2VPJn+B1oJHyy+mlin7XxgqPjVW4ALfM9Gi3j1LMojJ54DhG8QHnZvoMnfVEu4l9ftqR2cAVCCAuyVBSE1Hh2/a2MaPOgGFi9Xj3zR7nTipnGtMiRmmrDYQqAg6dfULnVcwVQVBrUJoMOsFV2Lq+lFsfqrsDD/08vDXXABpTKIP7aCidGmZ8ZkNO/QHZcAUwWwWRcsDsMi2Gnau6qS0CdlPc3tf6fL2KrIjJmVzQDEwZH0+XodWT8tqAwJDq/FVI1fpct+lX80I=
-  file: build/libs/HostsQueue.war
+  file: HostsQueue.war
   on:
     repo: earion/WifiQueue
     all_branches: true
