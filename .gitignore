@@ -1,1 +1,7 @@
 .idea
+.gradle/
+build/
+classes/
+gradlew
+gradlew.bat
+out/
