@@ -9,9 +9,7 @@ cache:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
 script:
-   gradle clean
-   gradle test
-   gradle war
+   gradle clean test war
 deploy:
   provider: pages
   skip_cleanup: true
