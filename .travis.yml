@@ -11,7 +11,7 @@ cache:
   directories:
   - "$HOME/.gradle/caches/"
   - "$HOME/.gradle/wrapper/"
-script: gradle clean check war
+script: gradle clean check mockedTest war
 deploy:
   skip_cleanup: true
   provider: releases

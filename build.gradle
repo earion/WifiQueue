@@ -7,7 +7,11 @@ sourceCompatibility = 1.7
 
 test {
     exclude '**/*Integration*'
-    //exclude '**/*OntListComponentTest*'
+    exclude '**/*OntListComponentTest*'
+}
+
+task mockedTest(type: Test,group: 'verification') {
+    include '**/*OntListComponentTest*'
 }
 
 
