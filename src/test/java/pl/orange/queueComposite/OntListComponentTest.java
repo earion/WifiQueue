@@ -3,31 +3,44 @@ package pl.orange.queueComposite;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
-import pl.orange.isamConfiguration.OntRegistrator;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 import pl.orange.util.ExceptionMessages;
 import pl.orange.util.HostListException;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.doNothing;
 
-@RunWith(MockitoJUnitRunner.class)
+
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(OntListComponent.class)
 public class OntListComponentTest {
 
-
-    @Mock
-    OntRegistrator ontr;
-
-
-    @InjectMocks
     private OntListComponent olc;
 
-
     @Before
-    public void beforeEachTest() {
-        olc = new OntListComponent("LO2", 1, 64);
+    public void beforeEachTest() throws Exception {
+        olc = PowerMockito.spy(new OntListComponent("LO2", 1, 64));
+        PowerMockito
+                .doNothing()
+                .when(olc,  PowerMockito.method(OntListComponent.class, "registerOnt"))
+                .withArguments("SMBS12345671",1);
+        PowerMockito
+                .doNothing()
+                .when(olc,  PowerMockito.method(OntListComponent.class, "registerOnt"))
+                .withArguments("SMBS12345672",2);
+        PowerMockito
+                .doNothing()
+                .when(olc,  PowerMockito.method(OntListComponent.class, "registerOnt"))
+                .withArguments("SMBS12345672",1);
+        PowerMockito
+                .doNothing()
+                .when(olc,  PowerMockito.method(OntListComponent.class, "registerOnt"))
+                .withArguments("SMBS12345673",3);
+        PowerMockito
+                .doNothing()
+                .when(olc,  PowerMockito.method(OntListComponent.class, "registerOnt"))
+                .withArguments("SMBS12345673",1);
     }
 
 
@@ -35,11 +48,11 @@ public class OntListComponentTest {
     public void removeItem() throws Exception {
         //given
         Host host1 = new Host("SMBS12345671", "empty");
-        doNothing().when(ontr).registerONT("SMBS12345671");
 
-        //when
         olc.addItem(host1);
+        //when
         olc.removeItem(host1);
+        //then
         assertThat(olc.getSize()).isEqualTo(0);
     }
 
@@ -54,7 +67,6 @@ public class OntListComponentTest {
 
     @Test
     public void shouldAddTwoItems() throws Exception {
-
         //given
         Host host1 = new Host("SMBS12345671", "empty");
         Host host2 = new Host("SMBS12345672", "empty");
@@ -70,7 +82,7 @@ public class OntListComponentTest {
 
     @Test
     public void shouldNotAddTwoItemsWithSameName() throws Exception {
-        String errorHost = "SMBS12345678";
+        String errorHost = "SMBS12345671";
         olc.addItem(new Host(errorHost, "empty"));
         try {
             olc.addItem(new Host(errorHost, "empty"));
@@ -80,14 +92,10 @@ public class OntListComponentTest {
         }
     }
 
-
-
-
-
     @Test
     public void ShouldaddOneItem() throws Exception {
         //Given
-        Host host = new Host("SMBS12345678", "empty");
+        Host host = new Host("SMBS12345671", "empty");
         //when
         int slotNumber = olc.addItem(host);
         //then

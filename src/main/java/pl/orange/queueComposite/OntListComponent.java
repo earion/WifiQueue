@@ -39,10 +39,6 @@ public class OntListComponent extends HostListComponent {
     }
 
 
-    public OntListComponent()
-    {
-        super("void");
-    }
 
     OntListComponent(String name,int oltId, int size) {
         super(name);
@@ -79,6 +75,7 @@ public class OntListComponent extends HostListComponent {
         }
         ocupiedSlots.add(ontPoole.get(item),false);
         ontPoole.remove(item);
+        log.info("Remove ONT from " + item.getName());
     }
 
     @Override
@@ -87,17 +84,21 @@ public class OntListComponent extends HostListComponent {
         int freeSlotId = findFirstFreeSlot();
         if(freeSlotId == 0)   throw new HostListException(ExceptionMessages.WAIT,"List " + getName() + " if full, impossible to add " + item.getName());
         if(findFirstFreeSlot() != 0) {
-            try {
-                ontr = new OntRegistrator(oltId,freeSlotId);
-                ontr.registerONT(item.getName());
-            } catch (NullPointerException   e) {
-                throw new HostListException(ExceptionMessages.DSLAM_CONNECTION_ISSUE,e.getClass().getName());
-            }
+            registerOnt(item.getName(), freeSlotId);
             ontPoole.put(item, freeSlotId);
             ocupiedSlots.add(freeSlotId,true);
             log.info("add ONT from " + item.getName() + " to " + getName() + " " + freeSlotId);
         }
         return freeSlotId;
+    }
+
+    private void registerOnt(String name, int freeSlotId) throws HostListException {
+        try {
+            ontr = new OntRegistrator(oltId,freeSlotId);
+            ontr.registerONT(name);
+        } catch (NullPointerException   e) {
+            throw new HostListException(ExceptionMessages.DSLAM_CONNECTION_ISSUE,e.getClass().getName());
+        }
     }
 
 
