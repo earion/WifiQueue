@@ -2,3 +2,6 @@
 
 Project developed in Orange Polska S.A.
 Purpose of the project is management of wifi queing mechanism and ONT provisioning on NOKIA 7330 DSLAM (GPON card)
+
+Requirements:
+Java 1.8
