@@ -9,6 +9,7 @@ import pl.orange.util.HostListException;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 
 public class HostListAgregate extends HostListComponent {
@@ -89,6 +90,7 @@ public class HostListAgregate extends HostListComponent {
     public void removeItem(HostListComponent item) throws HostListException {
         checkIfOnlyHostIsRemoved(item);
         Host hostToRemove = (Host) item;
+
         for(HostListComponent hlc: agregateList) {
             if(hlc.getName().equals(hostToRemove.getListName())) {
                 hlc.removeItem(item);
@@ -113,12 +115,15 @@ public class HostListAgregate extends HostListComponent {
     public int addItem(HostListComponent item) throws HostListException {
         if(item instanceof Host) {
             String targetList = ((Host) item).getListName();
-            for(HostListComponent hlc : agregateList) {
-                if(hlc.getName().equals(targetList)) {
-                   return hlc.addItem(item);
-                }
+            try {
+                agregateList.stream()
+                        .filter(e -> e.getName().equals(targetList))
+                        .findFirst()
+                        .get()
+                        .addItem(item);
+            } catch (NoSuchElementException e) {
+                throw new HostListException(ExceptionMessages.NOT_PRESENT, "Target list " + targetList + " was not add to Agregate");
             }
-            throw new HostListException(ExceptionMessages.NOT_PRESENT, "Target list " + targetList + " was not add to Agregate");
         } else {
             agregateList.add(item);
         }
@@ -161,12 +166,16 @@ public class HostListAgregate extends HostListComponent {
     }
 
     int getSizeOfInternalList(String targetList) throws HostListException {
-       for(HostListComponent hlc : agregateList) {
-           if(hlc.getName().equals(targetList)) {
-               return hlc.getSize();
-           }
-       }
-       throw new HostListException(ExceptionMessages.NOT_PRESENT,"Internal list " + targetList + " not present in agregate");
+        try {
+            return agregateList.stream().filter(e -> e.getName()
+                    .equals(targetList))
+                    .findFirst().get().getSize();
+        } catch (NoSuchElementException e) {
+            new HostListException(ExceptionMessages.NOT_PRESENT, "Internal list " + targetList + " not present in agregate");
+        }
+        return 0;
     }
+
+
 
 }
