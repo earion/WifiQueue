@@ -1,6 +1,6 @@
 package pl.orange.isamConfiguration;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import pl.orange.util.ExceptionMessages;
 import pl.orange.util.HostListException;
 
