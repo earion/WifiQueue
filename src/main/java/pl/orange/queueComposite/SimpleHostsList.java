@@ -1,11 +1,11 @@
 package pl.orange.queueComposite;
 
-import com.google.common.base.Optional;
 import org.apache.log4j.Logger;
-import pl.orange.util.HostListException;
 import pl.orange.util.ExceptionMessages;
+import pl.orange.util.HostListException;
 
 import java.util.LinkedList;
+import java.util.Optional;
 
 
 public class SimpleHostsList extends HostListComponent{
@@ -50,7 +50,7 @@ public class SimpleHostsList extends HostListComponent{
         if(hostsList.contains(item)) {
             return Optional.of(hostsList.get(hostsList.indexOf(item)));
         }
-        return Optional.absent();
+        return Optional.empty();
     }
 
     public void removeItem(HostListComponent item) throws HostListException {
