@@ -31,13 +31,14 @@ public class OntRegistrator {
 
     public void registerONT(String serialNumber) throws HostListException {
         String commands = prepareRegisterCommands(serialNumber);
-        IsamConfigurator.getInstance().sendConfiguration(commands);
+         IsamConfigurator isc =  new  IsamConfigurator();
+         isc.sendConfiguration(commands);
     }
 
     void unregisterONT() throws HostListException {
         String commands = preperareUnregisterCommands();
-        IsamConfigurator.getInstance().sendConfiguration(commands);
-
+        IsamConfigurator isc =  new  IsamConfigurator();
+        isc.sendConfiguration(commands);
     }
 
     String preperareUnregisterCommands() throws HostListException {

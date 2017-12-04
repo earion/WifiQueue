@@ -15,18 +15,7 @@ class IsamConfigurator {
     private IsamConnectable isam;
     private static final Logger log = Logger.getLogger(IsamConfigurator.class);
 
-    static IsamConfigurator getInstance() throws HostListException {
-        if(instance==null) {
-            synchronized (ConfigurationManager.class) {
-                if (instance == null) {
-                    instance = new IsamConfigurator();
-                }
-            }
-        }
-        return instance;
-    }
-
-    private IsamConfigurator() throws HostListException {
+    IsamConfigurator() throws HostListException {
         String isamConfiguration;
         try {
             isamConfiguration = getIsamConnectionParameters();
