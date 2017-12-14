@@ -7,7 +7,7 @@ Purpose of the project is management of wifi queing mechanism and ONT provisioni
 
     mkdir images
     cd images
-    Download file https://github.com/earion/WifiQueue/blob/master/docker/Dockerfile
+    wget https://github.com/earion/WifiQueue/blob/master/docker/Dockerfile
     docker build -t hostsqueue .
     docker run -p 4000:8080  hostsqueue
 
