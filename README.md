@@ -17,6 +17,6 @@ Go to: http://localhost:4000/HostsQueue/state/ - this is it !
 
 
 
-Requirements to run
+Requirements to run:
 
 docker 
