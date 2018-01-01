@@ -24,6 +24,14 @@ repositories {
     mavenCentral()
 }
 
+
+
+task setVersion(type: Exec) {
+    executable "sh"
+    args "-c", "git describe --abbrev=0 --tags > src/main/resources/version"
+}
+war.dependsOn setVersion
+
 war {
     rootSpec.exclude("**/tomcat-*.jar")
 }

@@ -6,8 +6,10 @@ import com.hp.gagawa.java.elements.*;
 import pl.orange.queueComposite.*;
 import pl.orange.util.HostListException;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -24,14 +26,11 @@ class QueueState {
 
     QueueState() throws HostListException {
         document = new Document(DocumentType.XHTMLTransitional);
-        try {
-            document.head.appendChild( new Title().appendChild( new Text("Statystyki kolejek " + InetAddress.getLocalHost().getHostName()) ) );
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        }
+        document.head.appendChild(new Title().appendChild(new Text("Statystyki kolejek")));
+        document.head.appendChild(new Text("<Meta charset='UTF-8'>"));
+        document.head.appendChild(new Meta("30").setHttpEquiv("refresh"));
         document.head.appendChild(new Link().setRel("stylesheet").setHref("../css/bootstrap.css"));
         document.head.appendChild(new Link().setRel("stylesheet").setHref("../css/grid.css"));
-        document.head.appendChild(new Meta("30").setHttpEquiv("refresh"));
         Body body = document.body;
         container = new Div();
         container.setCSSClass("container");
@@ -41,6 +40,20 @@ class QueueState {
         container.appendChild(generateQueuesHeaders());
         container.appendChild(generateContent());
     }
+
+    private String getHostQueueHeaderName() {
+        String content =  "Kolejka Hostów ";
+        try {
+            content +=  InetAddress.getLocalHost().getHostName();
+            BufferedReader is = new BufferedReader(( new InputStreamReader(getClass().getClassLoader().getResourceAsStream("version"))));
+            content += " wersja "  +   is.readLine();
+        } catch ( IOException e) {
+            e.printStackTrace();
+        }
+        return content;
+    }
+
+
 
     private Div genereateErrorDiv() {
         errorDiv = new Div();
@@ -183,7 +196,7 @@ class QueueState {
         Div pageHeader = new Div();
         pageHeader.setCSSClass("page-header");
         H1 header = new H1();
-        header.appendChild(new Text("Statystyki mechanizmu kolejek"));
+        header.appendChild(new Text(getHostQueueHeaderName()));
         pageHeader.appendChild(header);
         return pageHeader;
 
