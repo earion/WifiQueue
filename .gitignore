@@ -5,4 +5,4 @@ classes/
 gradlew
 gradlew.bat
 out/
-
+/src/main/resources/version
