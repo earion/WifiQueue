@@ -1,8 +1,12 @@
 package pl.orange.config;
 
+import org.apache.log4j.Logger;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.*;
 
 /**
@@ -10,6 +14,7 @@ import java.util.*;
  */
 public class ConfigurationManager {
 
+    private static final Logger log = Logger.getLogger(ConfigurationManager.class);
     private static ConfigurationManager instance;
     Properties prop = new Properties();
     private HashMap<String, ConfigurationEntry> configMap;
@@ -49,14 +54,27 @@ public class ConfigurationManager {
     }
 
     private ConfigurationManager() throws IOException {
-        String propFileName = "configuration.properties";
+        String propFileName = getConfigurationFileNameBasedOnHostname();
         InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+        log.info("loading configuration file " + propFileName);
         if (inputStream != null) {
             prop.load(inputStream);
         } else {
             throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
         }
         configMap = loadConfigurationFromFile();
+    }
+
+    private String getConfigurationFileNameBasedOnHostname() throws UnknownHostException {
+        String hostName = InetAddress.getLocalHost().getHostName();
+        log.info("Hostname is " + hostName);
+        String configFileName;
+        if(hostName.toLowerCase().contains("olt")) {
+            configFileName = "configurationOLT.properties";
+        } else {
+            configFileName = "configurationWAW.properties";
+        }
+        return configFileName;
     }
 
 
