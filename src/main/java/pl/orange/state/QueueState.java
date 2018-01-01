@@ -6,6 +6,8 @@ import com.hp.gagawa.java.elements.*;
 import pl.orange.queueComposite.*;
 import pl.orange.util.HostListException;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -22,7 +24,11 @@ class QueueState {
 
     QueueState() throws HostListException {
         document = new Document(DocumentType.XHTMLTransitional);
-        document.head.appendChild( new Title().appendChild( new Text("Statystyki kolejek") ) );
+        try {
+            document.head.appendChild( new Title().appendChild( new Text("Statystyki kolejek " + InetAddress.getLocalHost().getHostName()) ) );
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
         document.head.appendChild(new Link().setRel("stylesheet").setHref("../css/bootstrap.css"));
         document.head.appendChild(new Link().setRel("stylesheet").setHref("../css/grid.css"));
         document.head.appendChild(new Meta("30").setHttpEquiv("refresh"));
