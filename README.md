@@ -3,11 +3,11 @@
 Project developed in Orange Polska S.A.
 Purpose of the project is management of wifi queing mechanism and ONT provisioning on NOKIA 7330 DSLAM (GPON card)
 
-##How to run App:
+## How to run App:
 
     mkdir images
     cd images
-    Download file https://github.com/earion/WifiQueue/blob/master/docker/Dockerfile
+    wget https://github.com/earion/WifiQueue/blob/master/docker/Dockerfile
     docker build -t hostsqueue .
     docker run -p 4000:8080  hostsqueue
 
@@ -17,5 +17,6 @@ Go to: http://localhost:4000/HostsQueue/state/ - this is it !
 
 
 
-Requirements to run
+Requirements to run:
+
 docker 
