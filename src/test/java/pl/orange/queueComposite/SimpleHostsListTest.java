@@ -8,6 +8,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class SimpleHostsListTest {
 
+
     @Test
     public void shouldHaveTwoElements() throws Exception {
         SimpleHostsList shl = new SimpleHostsList("CAT-IQ",10);
