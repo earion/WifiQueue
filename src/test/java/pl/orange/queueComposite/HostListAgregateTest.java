@@ -50,7 +50,7 @@ public class HostListAgregateTest {
 
 
     @Test
-    public void shouldNotAddtoNotSetUpSimpleList() throws Exception {
+    public void shouldNotAddtoNotSetUpSimpleList()  {
         // Given
         hla = HostListAgregate.getInstanceForTestPurpose();
         // When
@@ -64,7 +64,7 @@ public class HostListAgregateTest {
 
 
     @Test
-    public void shouldNotGetSizeOfNotInitializedSimpleList() throws Exception {
+    public void shouldNotGetSizeOfNotInitializedSimpleList()  {
         // Given
         hla = HostListAgregate.getInstanceForTestPurpose();
         // When
