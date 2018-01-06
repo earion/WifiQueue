@@ -115,15 +115,12 @@ public class HostListAgregate extends HostListComponent {
     public int addItem(HostListComponent item) throws HostListException {
         if(item instanceof Host) {
             String targetList = ((Host) item).getListName();
-            try {
-                agregateList.stream()
-                        .filter(e -> e.getName().equals(targetList))
-                        .findFirst()
-                        .get()
-                        .addItem(item);
-            } catch (NoSuchElementException e) {
-                throw new HostListException(ExceptionMessages.NOT_PRESENT, "Target list " + targetList + " was not add to Agregate");
+            for(HostListComponent hlc : agregateList) {
+                if(hlc.getName().equals(targetList)) {
+                    return hlc.addItem(item);
+                }
             }
+            throw new HostListException(ExceptionMessages.NOT_PRESENT, "Target list " + targetList + " was not add to Agregate");
         } else {
             agregateList.add(item);
         }

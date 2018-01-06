@@ -22,6 +22,21 @@ public class HostListAgregateTest {
         }
     }
 
+
+    @Test
+    public void shouldReturnIntegerForSpecyficQueue() throws HostListException {
+        // Given
+        Integer channel = 1;
+        hla = HostListAgregate.getInstanceForTestPurpose();
+        WifiListComponent wlc =  new WifiListComponent("Wifi",3);
+        wlc.addItem(new SimpleHostsList(String.valueOf(channel),10));
+        hla.addItem(wlc);
+        // When
+        int id = hla.addItem(new Host("L2-01-01","Wifi"));
+        // Then
+        assertThat(id).isEqualTo(channel);
+    }
+
     @Test
     public void shouldAddItemToSimpleListInsideAgregate() throws HostListException {
         // Given
