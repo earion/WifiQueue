@@ -9,7 +9,8 @@ Purpose of the project is management of wifi queing mechanism and ONT provisioni
     cd images
     wget https://raw.githubusercontent.com/earion/WifiQueue/master/docker/Dockerfile
     docker build --no-cache -t hostsqueue .
-    docker run -p 4000:8080 -h new_hostname  hostsqueue
+    ddocker run -p 4000:8080 -h new_hostname --restart unless-stopped -d --name kolejkiWifi  hostsqueue
+
 
 Go to: http://localhost:4000/HostsQueue/state/ - this is it !
 
