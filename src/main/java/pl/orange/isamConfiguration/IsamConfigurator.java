@@ -37,10 +37,10 @@ class IsamConfigurator {
             log.info("Sending command:" + commands);
             isam.setConnection();
             String out = isam.sendCommand(commands);
-            if(out.contains("invalid token")) {
-                throw new HostListException(ExceptionMessages.DSLAM_CONNECTION_ISSUE,out);
+            if(out.contains("Error") || out.contains("invalid token") ) {
+                throw new HostListException(ExceptionMessages.DSLAM_SETTINGS_ERROR,out);
             }
-            log.info("Received output " +out);
+            log.info("Received output " + out);
             isam.disconnect();
         } catch (IOException   e) {
             throw new HostListException(ExceptionMessages.DSLAM_CONNECTION_ISSUE,e.getMessage());

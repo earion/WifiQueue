@@ -31,11 +31,11 @@ class IsamConnectionTelnet extends  IsamConnectionAbstract implements IsamConnec
         authorize();
         sendTelnetCommand(command);
         try {
-            Thread.sleep(2000);
+            Thread.sleep(3000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        return readOutputWithIterator();
+        return readAnswer();
     }
 
     boolean authorize() throws IOException {
@@ -116,11 +116,30 @@ class IsamConnectionTelnet extends  IsamConnectionAbstract implements IsamConnec
                 if(line.contains("alarm")) {
                     continue;
                 }
-                if(line.isEmpty() || line.equals("typ:isadmin># ")) break;
+                  if(line.isEmpty() || line.equals("typ:isadmin># ")) break;
                 sb.append(line).append("\n");
             }
+       log.info("Welcome to ISAM");
+        return sb.toString();
+    }
 
-       log.info(sb.toString());
+
+
+    private String readAnswer()  {
+        StringBuilder sb = new StringBuilder();
+        final LineIterator it = new LineIterator(in);
+        while (it.hasNext()) {
+            String line = it.nextLine();
+            if(line.contains("Error") || line.contains("invalid token")) {
+                log.info(line);
+                return line;
+            }
+            if(line.contains("alarm")) {
+                continue;
+            }
+            if(line.endsWith("# ")) break;
+            sb.append(line).append("\n");
+        }
         return sb.toString();
     }
 

@@ -73,6 +73,7 @@ public class OntListComponent extends HostListComponent {
         if(!ontPoole.containsKey(item)) {
             throw new HostListException(ExceptionMessages.NOT_PRESENT, item.getName() + " is not present on list " + getName());
         }
+        unregisterOnt(ontPoole.get(item));
         ocupiedSlots.add(ontPoole.get(item),false);
         ontPoole.remove(item);
         log.info("Remove ONT from " + item.getName());
@@ -100,6 +101,18 @@ public class OntListComponent extends HostListComponent {
             throw new HostListException(ExceptionMessages.DSLAM_CONNECTION_ISSUE,e.getClass().getName());
         }
     }
+
+
+
+    private void unregisterOnt(int slotId) throws HostListException {
+        try {
+            ontr = new OntRegistrator(oltId,slotId);
+            ontr.unregisterONT();
+        } catch (NullPointerException   e) {
+            throw new HostListException(ExceptionMessages.DSLAM_CONNECTION_ISSUE,e.getClass().getName());
+        }
+    }
+
 
 
     private void checkIfElementIsNotOnList(HostListComponent item) throws HostListException{
