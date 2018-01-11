@@ -43,15 +43,15 @@ public class OntListComponentTest {
                 .withArguments("SMBS12345673",1);
         PowerMockito
                 .doNothing()
-                .when(olc,  PowerMockito.method(OntListComponent.class, "uregisterOnt"))
+                .when(olc,  PowerMockito.method(OntListComponent.class, "unregisterOnt"))
                 .withArguments(1);
         PowerMockito
                 .doNothing()
-                .when(olc,  PowerMockito.method(OntListComponent.class, "uregisterOnt"))
+                .when(olc,  PowerMockito.method(OntListComponent.class, "unregisterOnt"))
                 .withArguments(2);
         PowerMockito
                 .doNothing()
-                .when(olc,  PowerMockito.method(OntListComponent.class, "uregisterOnt"))
+                .when(olc,  PowerMockito.method(OntListComponent.class, "unregisterOnt"))
                 .withArguments(3);
     }
 
