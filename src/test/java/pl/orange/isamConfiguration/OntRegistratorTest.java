@@ -36,7 +36,8 @@ public class OntRegistratorTest {
     public void unregisterTest() throws Exception {
         OntRegistrator ontReg = new OntRegistrator(1,1);
         String output = ontReg.preperareUnregisterCommands();
-        assertThat(output).isEqualTo("configure equipment ont interface 1/1/8/1/1 admin-state down\n");
+        assertThat(output).isEqualTo("configure equipment ont interface 1/1/8/1/1 admin-state down\n" +
+                "configure equipment ont interface 1/1/8/1/1 no sernum \n");
     }
 
 }

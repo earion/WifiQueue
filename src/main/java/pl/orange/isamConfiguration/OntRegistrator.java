@@ -35,14 +35,14 @@ public class OntRegistrator {
          isc.sendConfiguration(commands);
     }
 
-    void unregisterONT() throws HostListException {
+    public void unregisterONT() throws HostListException {
         String commands = preperareUnregisterCommands();
         IsamConfigurator isc =  new  IsamConfigurator();
         isc.sendConfiguration(commands);
     }
 
     String preperareUnregisterCommands() throws HostListException {
-       return downPort();
+        return downPort() + managePortState() + " no sernum \n" ;
     }
 
 

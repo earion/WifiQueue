@@ -1,32 +1,59 @@
 package pl.orange.isamConfiguration;
 
+import org.junit.Ignore;
 import org.junit.Test;
+import pl.orange.util.HostListException;
 
-import static org.assertj.core.api.Assertions.fail;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class OntRegistratorIntegrationTest {
 
-    @Test
-    public void ontRegistrationIntegrationTest() throws Exception {
-        OntRegistrator ontReg = new OntRegistrator(1,1);
-        ontReg.registerONT("SMBS12345678");
-    }
 
-    @Test
-    public void ontUnregisterIntegrationTest() throws Exception {
+    @Ignore
+    public static void beforeClass() throws Exception {
         OntRegistrator ontReg = new OntRegistrator(1,1);
         ontReg.unregisterONT();
+        ontReg = new OntRegistrator(1,2);
+        ontReg.unregisterONT();
+        assertThat(true);
     }
 
+
     @Test
-    public void TestReperatibilityOntRegistration() throws Exception {
+    public void ontRegistrationIntegrationTest() throws Exception {
+         OntRegistrator ontReg = new OntRegistrator(1,1);
+        ontReg.registerONT("SMBS12345678");
+        ontReg.unregisterONT();
+        assertThat(true);
+    }
+
+
+    @Test
+    public void ontRegistrationUnknowSlot() throws Exception {
+        OntRegistrator ontReg = new OntRegistrator(1,11);
+        ontReg.registerONT("SMBS12345009");
+        ontReg.unregisterONT();
+        assertThat(true);
+    }
+
+
+
+    @Test
+    public void ontFailureDueToSerialNumberPresentOnDSLAM() throws Exception {
+        OntRegistrator ontReg = new OntRegistrator(1,1);
+        ontReg.unregisterONT();
+        ontReg.registerONT("SMBS12345678");
         try {
-            OntRegistrator ontReg = new OntRegistrator(1, 1);
-            ontReg.registerONT("SMBS12345679");
+            ontReg = new OntRegistrator(1, 2);
             ontReg.unregisterONT();
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-            fail("NULL");
+            ontReg.registerONT("SMBS12345678");
+        } catch (HostListException e ){
+            ontReg = new OntRegistrator(1,1);
+            ontReg.unregisterONT();
+            assertThat(e.getMessage()).contains("Inconsistent ONT parameter configuration : Serial number already exists");
         }
     }
+
+
+
 }
