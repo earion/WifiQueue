@@ -8,6 +8,7 @@ import pl.orange.util.ExceptionMessages;
 import pl.orange.util.HostListException;
 
 import java.io.IOException;
+import java.net.SocketException;
 
 class IsamConfigurator {
 
@@ -33,18 +34,36 @@ class IsamConfigurator {
     }
 
     void sendConfiguration(String commands) throws HostListException {
+        String errorMessage = "";
         try {
             log.info("Sending command:" + commands);
             isam.setConnection();
-            String out = isam.sendCommand(commands);
-            if(out.contains("invalid token")) {
-                throw new HostListException(ExceptionMessages.DSLAM_CONNECTION_ISSUE,out);
+            for(int i=1;i<4;i++) {
+                try {
+                    sendCommand(commands);
+                    errorMessage = "";
+                    break;
+                } catch (SocketException e) {
+                    log.error("Caught " + e.getStackTrace());
+                    log.info("Try to re-execute previous command " + i + " try") ;
+                    errorMessage = e.getMessage();
+                }
             }
-            log.info("Received output " +out);
             isam.disconnect();
+            if(!errorMessage.isEmpty()) {
+                throw new HostListException(ExceptionMessages.DSLAM_CONNECTION_ISSUE,errorMessage);
+            }
         } catch (IOException   e) {
             throw new HostListException(ExceptionMessages.DSLAM_CONNECTION_ISSUE,e.getMessage());
         }
+    }
+
+    private void sendCommand(String commands) throws HostListException, IOException {
+        String out = isam.sendCommand(commands);
+        if(out.contains("invalid token")) {
+            throw new HostListException(ExceptionMessages.DSLAM_CONNECTION_ISSUE, out);
+        }
+        log.info("Received output " +out);
     }
 
 }
