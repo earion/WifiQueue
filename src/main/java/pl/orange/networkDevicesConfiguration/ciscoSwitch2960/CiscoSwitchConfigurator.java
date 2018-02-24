@@ -21,16 +21,12 @@ public class CiscoSwitchConfigurator extends NetworkDeviceConfigurator implement
         }
     }
 
-
     protected CiscoSwitchConfigurator(String name,Boolean mode) throws HostListException {
         this(name);
-        if(mode) {
+        if (mode) {
             sendConfiguration("configure terminal");
         }
     }
-
-
-
 
     @Override
     protected void disconnect() throws IOException {

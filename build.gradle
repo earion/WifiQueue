@@ -18,6 +18,10 @@ task mockedTest(type: Test,group: 'verification') {
     include '**/*OntListComponentTest*'
 }
 
+task integrationTest(type: Test,group: 'verification') {
+    include '**/*Integration*'
+}
+
 
 repositories {
     jcenter()

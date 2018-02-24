@@ -2,6 +2,7 @@ package pl.orange.networkDevicesConfiguration.nokiaIsam.connection;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -21,7 +22,7 @@ public class IsamConnectionTelnetTestIntegration {
         assertThat(ict.authorize()).isEqualTo(true);
     }
 
-    @Test
+    @Ignore
     public void checkCommandOutput() throws Exception {
         assertThat(ict.sendCommand("info configure equipment ont interface")).contains("admin-state");
     }

@@ -15,16 +15,18 @@ public class CiscoSwitch {
     private static final Logger log = Logger.getLogger(CiscoSwitch.class);
 
 
-    public String showPortStatus(String port) throws HostListException, IOException {
+    public String showPortStatus(String port) throws HostListException {
         portValidation(port);
         try (CiscoSwitchConfigurator ciscoSwitchConfigurator = new CiscoSwitchConfigurator("switch")) {
             String command = "sh ru int gi 0/" + port;
             String output = ciscoSwitchConfigurator.sendConfiguration(command);
             return output.substring(output.indexOf("!") + 1, output.indexOf("end"));
+        } catch (IOException e) {
+            throw new HostListException(ExceptionMessages.SWITCH_CONNECTION_ISSUE,e.getMessage());
         }
     }
 
-    public void changePortState(String port,Boolean state) throws HostListException, IOException {
+    public void changePortState(String port,Boolean state) throws HostListException {
         portValidation(port);
         try (CiscoSwitchConfigurator ciscoSwitchConfigurator = new CiscoSwitchConfigurator("switch",true)) {
             ciscoSwitchConfigurator.sendConfiguration("int gi 0/" + port);
@@ -33,10 +35,13 @@ public class CiscoSwitch {
                 command = "no " + command;
             }
             ciscoSwitchConfigurator.sendConfiguration(command);
+        } catch (IOException e) {
+            throw new HostListException(ExceptionMessages.SWITCH_CONNECTION_ISSUE,e.getMessage());
         }
     }
 
-    public void changeVlanMode(String port,VlanMode mode,String...vlans) throws HostListException, IOException {
+    public void changeVlanMode(String port,VlanMode mode,String vlansString) throws HostListException {
+        String[] vlans = vlansString.split(",");
         portValidation(port);
         vlanValidation(mode, vlans);
         switch (mode) {
@@ -52,26 +57,33 @@ public class CiscoSwitch {
 
     }
 
-    private void setTrunkMode(String port, String[] vlans) throws HostListException, IOException {
+    private void setTrunkMode(String port, String[] vlans) throws HostListException {
         try (CiscoSwitchConfigurator ciscoSwitchConfigurator = new CiscoSwitchConfigurator("switch", true)) {
             ciscoSwitchConfigurator.sendConfiguration("int gi 0/" + port);
             ciscoSwitchConfigurator.sendConfiguration("switchport mode trunk");
-            String commands = "switchport trunk alloved vlans ";
-            commands += "  " + Arrays.asList(vlans).stream().map(Object::toString).collect(Collectors.joining(","));
+            ciscoSwitchConfigurator.sendConfiguration("no switchport access vlan");
+            String commands = "switchport trunk allowed vlan ";
+            commands += Arrays.asList(vlans).stream().map(Object::toString).collect(Collectors.joining(","));
             ciscoSwitchConfigurator.sendConfiguration(commands);
+        }catch (IOException e) {
+            throw new HostListException(ExceptionMessages.SWITCH_CONNECTION_ISSUE,e.getMessage());
         }
     }
 
-    private void setAccessMode(String port, String vlan) throws HostListException, IOException {
+    private void setAccessMode(String port, String vlan) throws HostListException {
         try (CiscoSwitchConfigurator ciscoSwitchConfigurator = new CiscoSwitchConfigurator("switch", true)) {
             ciscoSwitchConfigurator.sendConfiguration("int gi 0/" + port);
             ciscoSwitchConfigurator.sendConfiguration("switchport mode access");
+            ciscoSwitchConfigurator.sendConfiguration("no switchport trunk allowed vlan");
             String commands = "switchport access vlan " + vlan;
             ciscoSwitchConfigurator.sendConfiguration(commands);
+        }catch (IOException e) {
+            throw new HostListException(ExceptionMessages.SWITCH_CONNECTION_ISSUE,e.getMessage());
         }
     }
 
     private void vlanValidation(VlanMode mode, String[] vlans) throws HostListException {
+        log.info("vlans length : " + vlans.length);
         if(mode.equals(ACCESS) && vlans.length > 1) {
             throw new HostListException(ExceptionMessages.LOGIC_ERROR,"Access mode should have only one vlan");
         }
