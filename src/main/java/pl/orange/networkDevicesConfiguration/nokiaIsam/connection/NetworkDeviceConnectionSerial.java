@@ -1,11 +1,11 @@
-package pl.orange.isamConfiguration.connection;
+package pl.orange.networkDevicesConfiguration.nokiaIsam.connection;
 
 import pl.orange.util.HostListException;
 
-public class IsamConnectionSerial extends IsamConnectionAbstract implements IsamConnectable {
+public class NetworkDeviceConnectionSerial extends NetworkDeviceConnectionAbstract implements NetworkDeviceConnectable {
 
 
-    IsamConnectionSerial(String connectionParameters) {
+    NetworkDeviceConnectionSerial(String connectionParameters) {
         super(connectionParameters);
     }
 

@@ -1,19 +1,17 @@
-package pl.orange.isamConfiguration.connection;
+package pl.orange.networkDevicesConfiguration.nokiaIsam.connection;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import pl.orange.isamConfiguration.connection.mockServer.TCPMockServer;
 
 import java.io.IOException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 
-public class IsamConnectionTelnetTest {
+public class IsamConnectionTelnetTestIntegration {
 
-    private IsamConnectionTelnet ict;
+    private NetworkDeviceConnectionTelnet ict;
 
 
 
@@ -28,16 +26,9 @@ public class IsamConnectionTelnetTest {
         assertThat(ict.sendCommand("info configure equipment ont interface")).contains("admin-state");
     }
 
-
-    @BeforeClass
-    public static void initialization() {
-        TCPMockServer telnetServer = new TCPMockServer(2000);
-    }
-
-
     @Before
     public void before() {
-        ict = new IsamConnectionTelnet("isadmin;ANS#150;127.0.0.1;telnet;",2000);
+        ict = new NetworkDeviceConnectionTelnet("isadmin;ANS#150;10.0.0.100;telnet;");
         try {
             ict.setConnection();
         } catch (IOException  e) {
@@ -54,4 +45,7 @@ public class IsamConnectionTelnetTest {
             fail(e.getMessage());
         }
     }
+
+
+
 }

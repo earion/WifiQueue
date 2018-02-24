@@ -1,43 +1,27 @@
-package pl.orange.isamConfiguration;
+package pl.orange.networkDevicesConfiguration.nokiaIsam;
 
 import org.apache.log4j.Logger;
-import pl.orange.config.ConfigurationManager;
-import pl.orange.isamConfiguration.connection.IsamConnectable;
-import pl.orange.isamConfiguration.connection.IsamConnectionFactory;
+import pl.orange.networkDevicesConfiguration.NetworkDeviceConfigurator;
 import pl.orange.util.ExceptionMessages;
 import pl.orange.util.HostListException;
 
 import java.io.IOException;
 import java.net.SocketException;
 
-class IsamConfigurator {
+class IsamConfigurator extends NetworkDeviceConfigurator {
 
-    private static IsamConfigurator instance;
-    private IsamConnectable isam;
     private static final Logger log = Logger.getLogger(IsamConfigurator.class);
 
-    IsamConfigurator() throws HostListException {
-        String isamConfiguration;
-        try {
-            isamConfiguration = getIsamConnectionParameters();
-        } catch (IOException e) {
-            throw new HostListException(ExceptionMessages.CONFIGURATION_READING_FAILURE,e.getMessage());
-        }
-        isam = IsamConnectionFactory.build(isamConfiguration);
+    IsamConfigurator(String name) throws HostListException {
+        super("dslam");
     }
 
-    private String getIsamConnectionParameters() throws IOException {
-        return ConfigurationManager
-                .getInstance()
-                .getConfigurationForQueue("dslam")
-                .getConfiguration();
-    }
 
-    void sendConfiguration(String commands) throws HostListException {
+    protected String sendConfiguration(String commands) throws HostListException {
         String errorMessage = "";
         try {
             log.info("Sending command:" + commands);
-            isam.setConnection();
+            networkDevice.setConnection();
             for(int i=1;i<4;i++) {
                 try {
                     sendCommand(commands);
@@ -49,17 +33,18 @@ class IsamConfigurator {
                     errorMessage = e.getMessage();
                 }
             }
-            isam.disconnect();
+            networkDevice.disconnect();
             if(!errorMessage.isEmpty()) {
                 throw new HostListException(ExceptionMessages.DSLAM_CONNECTION_ISSUE,errorMessage);
             }
         } catch (IOException   e) {
             throw new HostListException(ExceptionMessages.DSLAM_CONNECTION_ISSUE,e.getMessage());
         }
+        return "";
     }
 
     private void sendCommand(String commands) throws HostListException, IOException {
-        String out = isam.sendCommand(commands);
+        String out = networkDevice.sendCommand(commands);
         if(out.contains("invalid token")) {
             throw new HostListException(ExceptionMessages.DSLAM_CONNECTION_ISSUE, out);
         }

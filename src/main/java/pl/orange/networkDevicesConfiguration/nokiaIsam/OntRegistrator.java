@@ -1,4 +1,4 @@
-package pl.orange.isamConfiguration;
+package pl.orange.networkDevicesConfiguration.nokiaIsam;
 
 import org.apache.commons.lang3.StringUtils;
 import pl.orange.util.ExceptionMessages;
@@ -9,15 +9,12 @@ public class OntRegistrator {
     private String ontId;
     private String slot;
 
-
     public OntRegistrator(int ontId, int slot) {
         this.ontId = Integer.toString(ontId);
         this.slot = Integer.toString(slot);
     }
 
-
-
-    String prepareRegisterCommands(String serialNumber) throws HostListException{
+    public String prepareRegisterCommands(String serialNumber) throws HostListException{
         if(!serialNumber.matches("^[A-Z]{4}[A-F0-9]{8}$")) {
             throw new HostListException(ExceptionMessages.SERIAL_NUMBER_DO_NOT_MATCH_PREFIX,"Serial number " + serialNumber + " format must be XXXXDDDDDDDD");
         }
@@ -31,17 +28,17 @@ public class OntRegistrator {
 
     public void registerONT(String serialNumber) throws HostListException {
         String commands = prepareRegisterCommands(serialNumber);
-         IsamConfigurator isc =  new  IsamConfigurator();
+         IsamConfigurator isc =  new  IsamConfigurator("dslam");
          isc.sendConfiguration(commands);
     }
 
     public void unregisterONT() throws HostListException {
         String commands = preperareUnregisterCommands();
-        IsamConfigurator isc =  new  IsamConfigurator();
+        IsamConfigurator isc =  new  IsamConfigurator("dslam");
         isc.sendConfiguration(commands);
     }
 
-    String preperareUnregisterCommands() throws HostListException {
+    public String preperareUnregisterCommands() throws HostListException {
         return downPort() + managePortState() + " no sernum \n" ;
     }
 
@@ -78,6 +75,4 @@ public class OntRegistrator {
     private String prepareSerialNUmber(String serialNumber) {
        return  StringUtils.substring(serialNumber, 0, 4) + ":" + StringUtils.substring(serialNumber, 4, 13);
     }
-
-
 }

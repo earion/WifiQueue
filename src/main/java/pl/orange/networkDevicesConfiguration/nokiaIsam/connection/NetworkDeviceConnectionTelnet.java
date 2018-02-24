@@ -1,4 +1,4 @@
-package pl.orange.isamConfiguration.connection;
+package pl.orange.networkDevicesConfiguration.nokiaIsam.connection;
 
 import org.apache.commons.io.LineIterator;
 import org.apache.log4j.Logger;
@@ -9,9 +9,9 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-class IsamConnectionTelnet extends  IsamConnectionAbstract implements IsamConnectable {
+class NetworkDeviceConnectionTelnet extends NetworkDeviceConnectionAbstract implements NetworkDeviceConnectable {
 
-    private static final Logger log = Logger.getLogger(IsamConnectable.class);
+    private static final Logger log = Logger.getLogger(NetworkDeviceConnectable.class);
 
     private Socket telnetSocket = null;
     private PrintWriter out = null;
@@ -95,12 +95,12 @@ class IsamConnectionTelnet extends  IsamConnectionAbstract implements IsamConnec
         telnetSocket.close();
     }
 
-    IsamConnectionTelnet(String connectionParameters) {
+    NetworkDeviceConnectionTelnet(String connectionParameters) {
         super(connectionParameters);
         port = 23;
     }
 
-    IsamConnectionTelnet(String connectionParameters,int port) {
+    NetworkDeviceConnectionTelnet(String connectionParameters, int port) {
         super(connectionParameters);
         this.port = port;
     }

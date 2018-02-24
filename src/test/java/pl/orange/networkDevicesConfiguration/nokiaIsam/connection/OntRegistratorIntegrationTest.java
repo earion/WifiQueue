@@ -1,7 +1,8 @@
-package pl.orange.isamConfiguration;
+package pl.orange.networkDevicesConfiguration.nokiaIsam.connection;
 
 import org.junit.Ignore;
 import org.junit.Test;
+import pl.orange.networkDevicesConfiguration.nokiaIsam.OntRegistrator;
 import pl.orange.util.HostListException;
 
 import static org.assertj.core.api.Assertions.assertThat;

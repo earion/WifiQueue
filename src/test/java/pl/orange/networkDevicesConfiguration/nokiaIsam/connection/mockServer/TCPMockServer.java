@@ -1,4 +1,4 @@
-package pl.orange.isamConfiguration.connection.mockServer;
+package pl.orange.networkDevicesConfiguration.nokiaIsam.connection.mockServer;
 
 import org.apache.log4j.Logger;
 

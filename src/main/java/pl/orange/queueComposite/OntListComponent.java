@@ -1,7 +1,7 @@
 package pl.orange.queueComposite;
 
 import org.apache.log4j.Logger;
-import pl.orange.isamConfiguration.OntRegistrator;
+import pl.orange.networkDevicesConfiguration.nokiaIsam.OntRegistrator;
 import pl.orange.util.ExceptionMessages;
 import pl.orange.util.HostListException;
 

@@ -1,8 +1,8 @@
-package pl.orange.isamConfiguration.connection;
+package pl.orange.networkDevicesConfiguration.nokiaIsam.connection;
 
 import java.io.IOException;
 
-abstract class IsamConnectionAbstract implements IsamConnectable {
+abstract class NetworkDeviceConnectionAbstract implements NetworkDeviceConnectable {
 
 
     public String getConectionType() {
@@ -13,7 +13,7 @@ abstract class IsamConnectionAbstract implements IsamConnectable {
         return user;
     }
 
-    String getPassword() {
+   public String getPassword() {
         return password;
     }
 
@@ -29,7 +29,7 @@ abstract class IsamConnectionAbstract implements IsamConnectable {
     private String connectionDestination;
 
 
-    IsamConnectionAbstract(String connectionParameters) {
+    NetworkDeviceConnectionAbstract(String connectionParameters) {
         parseParameters(connectionParameters);
 
     }
