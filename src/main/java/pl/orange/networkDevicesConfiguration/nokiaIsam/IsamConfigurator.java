@@ -27,7 +27,7 @@ class IsamConfigurator extends NetworkDeviceConfigurator {
                     sendCommand(commands);
                     errorMessage = "";
                     break;
-                } catch (SocketException e) {
+                } catch (SocketException | IllegalStateException e) {
                     log.error("Caught " + e.getStackTrace());
                     log.info("Try to re-execute previous command " + i + " try") ;
                     errorMessage = e.getMessage();
