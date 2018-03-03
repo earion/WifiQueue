@@ -54,10 +54,6 @@ public class Switch {
     }
 
 
-
-
-
-
     @GET
     @Path("/portVlan")
     @Produces(MediaType.APPLICATION_JSON)

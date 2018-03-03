@@ -28,6 +28,7 @@ class IsamConfigurator extends NetworkDeviceConfigurator {
                     errorMessage = "";
                     break;
                 } catch (SocketException | IllegalStateException e) {
+                    networkDevice.disconnect();
                     log.error("Caught Exception" + e.getCause().getMessage());
                     log.info("Try to re-execute previous command " + i + " try") ;
                     networkDevice.setConnection();
