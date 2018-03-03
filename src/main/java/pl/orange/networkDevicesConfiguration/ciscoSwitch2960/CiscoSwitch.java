@@ -40,11 +40,15 @@ public class CiscoSwitch {
         }
     }
 
-    public void changeVlanMode(String port,VlanMode mode,String vlansString) throws HostListException {
+    public void changeVlanMode(String port,String mode,String vlansString) throws HostListException {
         String[] vlans = vlansString.split(",");
         portValidation(port);
-        vlanValidation(mode, vlans);
-        switch (mode) {
+        VlanMode vm = VlanMode.ACCESS;
+        if(mode.equals("trunk")) {
+            vm = VlanMode.TRUNK;
+        }
+        vlanValidation(vm, vlans);
+        switch (vm) {
             case ACCESS : {
                 setAccessMode(port,vlans[0]);
                 return;
@@ -91,7 +95,7 @@ public class CiscoSwitch {
 
     private void portValidation(String port) throws HostListException{
         try {
-            int i =   Integer.parseInt(port);
+            int i = Integer.parseInt(port);
             if (i > 48 || i < 0) throw new HostListException(ExceptionMessages.LOGIC_ERROR,"Port number should be between 0 and 48");
         }catch (NumberFormatException e ) {
             throw  new HostListException(ExceptionMessages.LOGIC_ERROR,e.getMessage());

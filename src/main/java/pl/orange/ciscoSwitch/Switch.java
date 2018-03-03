@@ -63,14 +63,11 @@ public class Switch {
 
         RestResponse validationError = handleVlanChangeValidation(port, mode, vlans);
         if (validationError != null) return validationError;
-        VlanMode vm = VlanMode.ACCESS;
-        if(mode.equals("trunk")) {
-            vm = VlanMode.TRUNK;
-        }
+
 
         try {
             CiscoSwitch ciscoSwitch = new CiscoSwitch();
-            ciscoSwitch.changeVlanMode(port,vm,vlans);
+            ciscoSwitch.changeVlanMode(port,mode,vlans);
             String checkPortStatus = ciscoSwitch.showPortStatus(port);
             return new RestResponse(true, 0, checkPortStatus);
         } catch (HostListException e) {

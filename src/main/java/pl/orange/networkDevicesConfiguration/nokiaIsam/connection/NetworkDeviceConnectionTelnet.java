@@ -90,6 +90,7 @@ class NetworkDeviceConnectionTelnet extends NetworkDeviceConnectionAbstract impl
             out.println("logout");
             isLoggedIn = false;
         }
+
         in.close();
         out.close();
         telnetSocket.close();
