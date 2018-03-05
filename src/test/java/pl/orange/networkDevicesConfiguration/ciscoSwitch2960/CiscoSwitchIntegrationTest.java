@@ -31,14 +31,14 @@ public class CiscoSwitchIntegrationTest {
 
     @Test
     public void shouldSetAccessMode() throws HostListException {
-        ciscoSwitch.changeVlanMode("20",VlanMode.ACCESS,"106");
+        ciscoSwitch.changeVlanMode("20","access","106");
         assertThat(ciscoSwitch.showPortStatus("20").contains("acess vlan 106"));
         assertThat(ciscoSwitch.showPortStatus("20").contains("mode access"));
     }
 
     @Test
     public void shoulSetTrunkModeOnPort() throws HostListException {
-        ciscoSwitch.changeVlanMode("20",VlanMode.TRUNK,"102,106");
+        ciscoSwitch.changeVlanMode("20","trunk","102,106");
         assertThat(ciscoSwitch.showPortStatus("20").contains("switchport trunk alloved vlan 102,106"));
         assertThat(ciscoSwitch.showPortStatus("20").contains("mode trunk"));
     }
