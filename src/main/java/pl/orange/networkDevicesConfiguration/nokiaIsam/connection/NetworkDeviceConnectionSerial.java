@@ -25,4 +25,12 @@ public class NetworkDeviceConnectionSerial extends NetworkDeviceConnectionAbstra
 
     }
 
+    @Override
+    public void startKeepingSession() {
+    }
+
+    @Override
+    public void stopKeepingSession() {
+    }
+
 }

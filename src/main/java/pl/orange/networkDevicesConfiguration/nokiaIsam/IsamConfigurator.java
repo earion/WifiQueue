@@ -13,16 +13,15 @@ class IsamConfigurator extends NetworkDeviceConfigurator {
     private static final Logger log = Logger.getLogger(IsamConfigurator.class);
 
     IsamConfigurator(String name) throws HostListException {
-        super("dslam");
+        super(name);
     }
-
 
     protected String sendConfiguration(String commands) throws HostListException {
         String errorMessage = "";
         try {
             log.info("Sending command:" + commands);
             networkDevice.setConnection();
-            for(int i=1;i<4;i++) {
+            for (int i = 1; i < 4; i++) {
                 try {
                     sendCommand(commands);
                     errorMessage = "";
@@ -30,27 +29,33 @@ class IsamConfigurator extends NetworkDeviceConfigurator {
                 } catch (SocketException | IllegalStateException e) {
                     networkDevice.disconnect();
                     log.error("Caught Exception" + e.getCause().getMessage());
-                    log.info("Try to re-execute previous command " + i + " try") ;
+                    log.info("Try to re-execute previous command " + i + " try");
+                    try {
+                        Thread.sleep(20 * 60 * 10000);
+                    } catch (InterruptedException e1) {
+                        e1.printStackTrace();
+                    }
                     networkDevice.setConnection();
                     errorMessage = e.getMessage();
                 }
             }
-            networkDevice.disconnect();
-            if(!errorMessage.isEmpty()) {
-                throw new HostListException(ExceptionMessages.DSLAM_CONNECTION_ISSUE,errorMessage);
+            if (!errorMessage.isEmpty()) {
+                throw new HostListException(ExceptionMessages.DSLAM_CONNECTION_ISSUE, errorMessage);
             }
-        } catch (IOException   e) {
-            throw new HostListException(ExceptionMessages.DSLAM_CONNECTION_ISSUE,e.getMessage());
+        } catch (IOException e) {
+            throw new HostListException(ExceptionMessages.DSLAM_CONNECTION_ISSUE, e.getMessage());
         }
         return "";
     }
 
     private void sendCommand(String commands) throws HostListException, IOException {
+        networkDevice.stopKeepingSession();
         String out = networkDevice.sendCommand(commands);
-        if(out.contains("invalid token")) {
+        if (out.contains("invalid token")) {
             throw new HostListException(ExceptionMessages.DSLAM_CONNECTION_ISSUE, out);
         }
-        log.info("Received output " +out);
+        log.info("Received output " + out);
+        networkDevice.startKeepingSession();
     }
 
 }

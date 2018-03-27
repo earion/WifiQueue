@@ -31,8 +31,6 @@ public abstract class NetworkDeviceConfigurator {
     protected abstract String sendConfiguration(String commands) throws HostListException;
 
 
-
-
     protected void disconnect() throws IOException, HostListException {
 
     }

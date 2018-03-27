@@ -17,14 +17,14 @@ import static net.sf.expectit.filter.Filters.removeColors;
 import static net.sf.expectit.filter.Filters.removeNonPrintable;
 import static net.sf.expectit.matcher.Matchers.contains;
 
-class NetworkDeviceConnectionSSH extends NetworkDeviceConnectionAbstract implements NetworkDeviceConnectable {
+class NetworkDeviceConnectionSshCisco extends NetworkDeviceConnectionAbstract implements NetworkDeviceConnectable {
 
-    private static final Logger log = Logger.getLogger(NetworkDeviceConnectionSSH.class);
+    private static final Logger log = Logger.getLogger(NetworkDeviceConnectionSshCisco.class);
     private Expect expect;
     private final SSHClient ssh;
 
 
-    NetworkDeviceConnectionSSH(String connectionParameters) throws HostListException {
+    NetworkDeviceConnectionSshCisco(String connectionParameters) throws HostListException {
         super(connectionParameters);
         try {
 
@@ -39,7 +39,7 @@ class NetworkDeviceConnectionSSH extends NetworkDeviceConnectionAbstract impleme
             ssh.connect(this.getConnectionDestination());
             ssh.authPassword(this.getUser(), this.getPassword());
         } catch (IOException e) {
-            throw new HostListException(ExceptionMessages.SSH_FAILURE,e.getMessage());
+            throw new HostListException(ExceptionMessages.SSH_FAILURE, e.getMessage());
         }
     }
 
@@ -62,11 +62,11 @@ class NetworkDeviceConnectionSSH extends NetworkDeviceConnectionAbstract impleme
             expect.expect(contains("word"));
             expect.sendLine(this.getPassword());
             Result r1 = expect.expect(contains("#"));
-            if(!r1.isSuccessful()) {
-                throw new HostListException(ExceptionMessages.CISCO_SWITCH_ENABLE_FAILURE,"");
+            if (!r1.isSuccessful()) {
+                throw new HostListException(ExceptionMessages.CISCO_SWITCH_ENABLE_FAILURE, "");
             }
         } catch (IOException e) {
-            throw new HostListException(ExceptionMessages.SSH_FAILURE,e.getMessage());
+            throw new HostListException(ExceptionMessages.SSH_FAILURE, e.getMessage());
         }
 
     }
@@ -76,9 +76,9 @@ class NetworkDeviceConnectionSSH extends NetworkDeviceConnectionAbstract impleme
         Result result;
         try {
             expect.sendLine(command);
-            result =expect.expect(contains("#"));
-        } catch(IOException  e)  {
-            throw new HostListException(ExceptionMessages.SSH_FAILURE,e.getMessage());
+            result = expect.expect(contains("#"));
+        } catch (IOException e) {
+            throw new HostListException(ExceptionMessages.SSH_FAILURE, e.getMessage());
         }
         return result.getBefore();
     }
@@ -87,5 +87,15 @@ class NetworkDeviceConnectionSSH extends NetworkDeviceConnectionAbstract impleme
     @Override
     public void disconnect() throws IOException {
         expect.close();
+    }
+
+    @Override
+    public void startKeepingSession() {
+
+    }
+
+    @Override
+    public void stopKeepingSession() {
+
     }
 }
