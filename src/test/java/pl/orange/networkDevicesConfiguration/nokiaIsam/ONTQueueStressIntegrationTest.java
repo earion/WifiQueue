@@ -4,7 +4,7 @@ import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
-import org.junit.Test;
+import org.junit.Ignore;
 import org.junit.runner.RunWith;
 
 import java.io.IOException;
@@ -17,8 +17,8 @@ public class ONTQueueStressIntegrationTest {
         return production ? "wifi.odnowa:80/HostsQueue" : "localhost:8081";
     }
 
-    @Test
-    public void keepingSessionTest(){
+    @Ignore
+    public void keepingSessionTest() {
         stressServer(1, 5, 360000, false);
         try {
             Thread.sleep(3 * 60 * 1000);
@@ -28,7 +28,7 @@ public class ONTQueueStressIntegrationTest {
         stressServer(1, 5, 360000, false);
     }
 
-    @Test
+    @Ignore
     @Parameters({"30,10,360000,false",})
     public void stressServer(int minutes, int threads, int timeout, boolean production) {
         String host = getHost(production);
