@@ -18,12 +18,13 @@ class IsamConfigurator extends NetworkDeviceConfigurator {
 
     protected String sendConfiguration(String commands) throws HostListException {
         String errorMessage = "";
+        String response = "";
         try {
             log.info("Sending command:" + commands);
             networkDevice.setConnection();
             for (int i = 1; i < 4; i++) {
                 try {
-                    sendCommand(commands);
+                    response = sendCommand(commands);
                     errorMessage = "";
                     break;
                 } catch (SocketException | IllegalStateException e) {
@@ -45,10 +46,10 @@ class IsamConfigurator extends NetworkDeviceConfigurator {
         } catch (IOException e) {
             throw new HostListException(ExceptionMessages.DSLAM_CONNECTION_ISSUE, e.getMessage());
         }
-        return "";
+        return response;
     }
 
-    private void sendCommand(String commands) throws HostListException, IOException {
+    private String sendCommand(String commands) throws HostListException, IOException {
         networkDevice.stopKeepingSession();
         String out = networkDevice.sendCommand(commands);
         if (out.contains("invalid token")) {
@@ -56,6 +57,7 @@ class IsamConfigurator extends NetworkDeviceConfigurator {
         }
         log.info("Received output " + out);
         networkDevice.startKeepingSession();
+        return out;
     }
 
 }
