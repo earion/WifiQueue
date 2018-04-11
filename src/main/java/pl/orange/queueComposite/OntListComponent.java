@@ -97,7 +97,7 @@ public class OntListComponent extends HostListComponent {
         try {
             ontr = new OntRegistrator(oltId,freeSlotId);
             ontr.registerONT(name);
-        } catch (NullPointerException   e) {
+        } catch (ArrayIndexOutOfBoundsException | NullPointerException   e) {
             throw new HostListException(ExceptionMessages.DSLAM_CONNECTION_ISSUE,e.getClass().getName());
         }
     }
@@ -108,7 +108,7 @@ public class OntListComponent extends HostListComponent {
         try {
             ontr = new OntRegistrator(oltId,slotId);
             ontr.unregisterONT();
-        } catch (NullPointerException   e) {
+        } catch (ArrayIndexOutOfBoundsException | NullPointerException   e) {
             throw new HostListException(ExceptionMessages.DSLAM_CONNECTION_ISSUE,e.getClass().getName());
         }
     }
