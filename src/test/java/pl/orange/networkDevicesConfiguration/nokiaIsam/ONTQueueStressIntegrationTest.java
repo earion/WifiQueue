@@ -28,7 +28,7 @@ public class ONTQueueStressIntegrationTest {
     }
 
     @Test
-    @Parameters({"2,10,360000,false",})
+    @Parameters({"5,20,360000,false",})
     public void stressServer(int minutes, int threads, int timeout, boolean production) {
         String host = getHost(production);
         for (int i = 0; i < 6 * minutes; i++) {

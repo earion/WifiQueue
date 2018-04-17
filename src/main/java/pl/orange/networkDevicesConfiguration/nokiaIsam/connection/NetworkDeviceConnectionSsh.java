@@ -70,7 +70,8 @@ class NetworkDeviceConnectionSsh extends NetworkDeviceConnectionAbstract impleme
                         log.info("Keeping session, send command = [info environment]");
                         sendCommand("info environment");
                     }
-                } catch (InterruptedException | HostListException ignored) {
+                } catch (ArrayIndexOutOfBoundsException | InterruptedException | HostListException e) {
+                    e.printStackTrace();
                 }
             }
         });

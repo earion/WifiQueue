@@ -84,7 +84,7 @@ public class OntRegistrator {
             String response = getConfigurationFromDSLAM(isc);
             serialNumber = serialNumber.replace("SMBS", "SMBS:");
             unregisterOntIfExistsInConfiguration(serialNumber, response);
-        } catch (HostListException | InterruptedException e) {
+        } catch (NullPointerException | HostListException | InterruptedException e) {
             e.printStackTrace();
         }
     }

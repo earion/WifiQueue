@@ -27,17 +27,19 @@ class IsamConfigurator extends NetworkDeviceConfigurator {
                     response = sendCommand(commands);
                     errorMessage = "";
                     break;
-                } catch (SocketException | IllegalStateException e) {
-                    networkDevice.disconnect();
-                    log.error("Caught Exception" + e.getCause().getMessage());
+                } catch (NullPointerException | SocketException | IllegalStateException e) {
+                    try {
+                        networkDevice.disconnect();
+                    } catch (NullPointerException ignored) {
+                    }
+                    log.error("Try send: " + commands);
+                    log.error("Caught Exception: " + e.getCause());
                     log.info("Try to re-execute previous command " + i + " try");
                     try {
-                        Thread.sleep(20 * 60 * 10000);
-                    } catch (InterruptedException e1) {
-                        e1.printStackTrace();
-                    }
-                    networkDevice.setConnection();
-                    errorMessage = e.getMessage();
+                        Thread.sleep(60 * 1000);
+                        networkDevice.setConnection();
+                        errorMessage = e.getMessage();
+                    } catch (NullPointerException | InterruptedException ignored) { }
                 }
             }
             if (!errorMessage.isEmpty()) {

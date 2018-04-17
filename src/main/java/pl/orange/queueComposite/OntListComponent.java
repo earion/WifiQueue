@@ -13,13 +13,12 @@ import java.util.Map;
 public class OntListComponent extends HostListComponent {
 
 
-
     private static final Logger log = Logger.getLogger(OntListComponent.class);
 
     private int oltId;
 
     private int size;
-    private LinkedHashMap<HostListComponent,Integer> ontPoole;
+    private LinkedHashMap<HostListComponent, Integer> ontPoole;
 
     private ArrayList<Boolean> ocupiedSlots;
 
@@ -31,16 +30,15 @@ public class OntListComponent extends HostListComponent {
     }
 
     public LinkedList<HostListComponent> getItems() {
-       LinkedList<HostListComponent> hosts = new LinkedList<>();
-        for( Map.Entry<HostListComponent,Integer> entry : ontPoole.entrySet()) {
-           hosts.add(entry.getKey());
+        LinkedList<HostListComponent> hosts = new LinkedList<>();
+        for (Map.Entry<HostListComponent, Integer> entry : ontPoole.entrySet()) {
+            hosts.add(entry.getKey());
         }
         return hosts;
     }
 
 
-
-    OntListComponent(String name,int oltId, int size) {
+    OntListComponent(String name, int oltId, int size) {
         super(name);
         this.oltId = oltId;
         this.size = size;
@@ -51,18 +49,18 @@ public class OntListComponent extends HostListComponent {
     }
 
     private void fillAllSlotsAsEmpty(int size) {
-        for(int i=0;i<size+1;i++) {
-            if(ocupiedSlots.size() == i) {
+        for (int i = 0; i < size + 1; i++) {
+            if (ocupiedSlots.size() == i) {
                 ocupiedSlots.add(false);
             } else {
-                ocupiedSlots.add(i,false);
+                ocupiedSlots.add(i, false);
             }
         }
     }
 
     private int findFirstFreeSlot() {
-        for(int i=1;i<size;i++) {
-            if(ocupiedSlots.get(i).equals(false)) return i;
+        for (int i = 1; i < size; i++) {
+            if (ocupiedSlots.get(i).equals(false)) return i;
         }
         return 0;
     }
@@ -70,11 +68,11 @@ public class OntListComponent extends HostListComponent {
 
     @Override
     protected void removeItem(HostListComponent item) throws HostListException {
-        if(!ontPoole.containsKey(item)) {
+        if (!ontPoole.containsKey(item)) {
             throw new HostListException(ExceptionMessages.NOT_PRESENT, item.getName() + " is not present on list " + getName());
         }
         unregisterOnt(ontPoole.get(item));
-        ocupiedSlots.add(ontPoole.get(item),false);
+        ocupiedSlots.add(ontPoole.get(item), false);
         ontPoole.remove(item);
         log.info("Remove ONT from " + item.getName());
     }
@@ -83,11 +81,12 @@ public class OntListComponent extends HostListComponent {
     protected int addItem(HostListComponent item) throws HostListException {
         checkIfElementIsNotOnList(item);
         int freeSlotId = findFirstFreeSlot();
-        if(freeSlotId == 0)   throw new HostListException(ExceptionMessages.WAIT,"List " + getName() + " if full, impossible to add " + item.getName());
-        if(findFirstFreeSlot() != 0) {
+        if (freeSlotId == 0)
+            throw new HostListException(ExceptionMessages.WAIT, "List " + getName() + " if full, impossible to add " + item.getName());
+        if (findFirstFreeSlot() != 0) {
             registerOnt(item.getName(), freeSlotId);
             ontPoole.put(item, freeSlotId);
-            ocupiedSlots.add(freeSlotId,true);
+            ocupiedSlots.add(freeSlotId, true);
             log.info("add ONT from " + item.getName() + " to " + getName() + " " + freeSlotId);
         }
         return freeSlotId;
@@ -95,28 +94,29 @@ public class OntListComponent extends HostListComponent {
 
     private void registerOnt(String name, int freeSlotId) throws HostListException {
         try {
-            ontr = new OntRegistrator(oltId,freeSlotId);
+            ontr = new OntRegistrator(oltId, freeSlotId);
             ontr.registerONT(name);
-        } catch (ArrayIndexOutOfBoundsException | NullPointerException   e) {
-            throw new HostListException(ExceptionMessages.DSLAM_CONNECTION_ISSUE,e.getClass().getName());
+        } catch (ArrayIndexOutOfBoundsException e) {
+            log.error("Problem with receiving a response from the ssh server.");
+            throw new HostListException(ExceptionMessages.DSLAM_CONNECTION_ISSUE, e.getClass().getName());
+        } catch (NullPointerException e) {
+            throw new HostListException(ExceptionMessages.DSLAM_CONNECTION_ISSUE, e.getClass().getName());
         }
     }
-
 
 
     private void unregisterOnt(int slotId) throws HostListException {
         try {
-            ontr = new OntRegistrator(oltId,slotId);
+            ontr = new OntRegistrator(oltId, slotId);
             ontr.unregisterONT();
-        } catch (ArrayIndexOutOfBoundsException | NullPointerException   e) {
-            throw new HostListException(ExceptionMessages.DSLAM_CONNECTION_ISSUE,e.getClass().getName());
+        } catch (ArrayIndexOutOfBoundsException | NullPointerException e) {
+            throw new HostListException(ExceptionMessages.DSLAM_CONNECTION_ISSUE, e.getClass().getName());
         }
     }
 
 
-
-    private void checkIfElementIsNotOnList(HostListComponent item) throws HostListException{
-        if(ontPoole.containsKey(item)) {
+    private void checkIfElementIsNotOnList(HostListComponent item) throws HostListException {
+        if (ontPoole.containsKey(item)) {
             throw new HostListException(ExceptionMessages.INPROGRESS, item.getName() + " is present on list " + getName());
         }
     }
