@@ -96,7 +96,7 @@ public class OntListComponent extends HostListComponent {
         try {
             ontr = new OntRegistrator(oltId, freeSlotId);
             ontr.registerONT(name);
-        } catch (ArrayIndexOutOfBoundsException e) {
+        } catch (ArrayIndexOutOfBoundsException | StringIndexOutOfBoundsException e) {
             log.error("Problem with receiving a response from the ssh server.");
             throw new HostListException(ExceptionMessages.DSLAM_CONNECTION_ISSUE, e.getClass().getName());
         } catch (NullPointerException e) {
