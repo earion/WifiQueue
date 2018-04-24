@@ -15,7 +15,7 @@ import static net.sf.expectit.filter.Filters.removeColors;
 import static net.sf.expectit.filter.Filters.removeNonPrintable;
 import static net.sf.expectit.matcher.Matchers.contains;
 
-class NetworkDeviceConnectionSsh extends NetworkDeviceConnectionAbstract implements NetworkDeviceConnectable {
+public class NetworkDeviceConnectionSsh extends NetworkDeviceConnectionAbstract implements NetworkDeviceConnectable {
 
     private static final Logger log = Logger.getLogger(NetworkDeviceConnectionSsh.class);
     private static Expect expect;
@@ -23,7 +23,7 @@ class NetworkDeviceConnectionSsh extends NetworkDeviceConnectionAbstract impleme
     private static volatile boolean keepSession = false;
 
 
-    NetworkDeviceConnectionSsh(String connectionParameters) throws HostListException {
+    public NetworkDeviceConnectionSsh(String connectionParameters) throws HostListException {
         super(connectionParameters);
     }
 
@@ -67,7 +67,7 @@ class NetworkDeviceConnectionSsh extends NetworkDeviceConnectionAbstract impleme
                 try {
                     Thread.sleep(20 * 60 * 1000);
                     if (keepSession) {
-                        log.info("Keeping session, send command = [info environment]");
+                        log.info("Keeping session, rsend command = [info environment]");
                         sendCommand("info environment");
                     }
                 } catch (ArrayIndexOutOfBoundsException | InterruptedException | HostListException e) {
