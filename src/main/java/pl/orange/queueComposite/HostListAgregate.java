@@ -173,6 +173,13 @@ public class HostListAgregate extends HostListComponent {
         return 0;
     }
 
-
+    public HostListComponent getQueue(String name){
+        for(HostListComponent hlc: agregateList) {
+            if(hlc.getName().equals(name)) {
+                return hlc;
+            }
+        }
+        return null;
+    }
 
 }
