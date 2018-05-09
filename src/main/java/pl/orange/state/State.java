@@ -1,6 +1,8 @@
 package pl.orange.state;
 import pl.orange.queueComposite.HostListAgregate;
+import pl.orange.util.ErrbitUtils;
 import pl.orange.util.HostListException;
+
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
@@ -16,6 +18,9 @@ public class State {
             state = new QueueState();
         } catch (HostListException e) {
             e.printStackTrace();
+        } catch (Exception e){
+            ErrbitUtils.notifyError(e);
+            throw e;
         }
         return state.getQueueState();
     }
@@ -32,6 +37,9 @@ public class State {
             return  new QueueState().setError(e.getMessage()).getQueueState();
         } catch (NumberFormatException e) {
             return  new QueueState().setError(e.getMessage() + " size must be integer").getQueueState();
+        } catch (Exception e){
+            ErrbitUtils.notifyError(e);
+            throw e;
         }
     }
 }

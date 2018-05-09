@@ -3,8 +3,10 @@ package pl.orange.queueComposite;
 import org.apache.log4j.Logger;
 import pl.orange.config.ConfigurationEntry;
 import pl.orange.config.ConfigurationManager;
+import pl.orange.util.CLIProcess;
 import pl.orange.util.ExceptionMessages;
 import pl.orange.util.HostListException;
+import pl.orange.util.VersionUtils;
 
 import java.io.IOException;
 import java.util.LinkedList;
@@ -21,7 +23,9 @@ public class HostListAgregate extends HostListComponent {
 
     private HostListAgregate() {
         super("Aggregate");
+        new CLIProcess("echo -n > ~/logs/log.log").executeWithTimeoutInSeconds(60).getSuccessMessage();
         agregateList = new LinkedList<>();
+        log.info("Current version of queue: " + VersionUtils.getVersion());
     }
 
     private void reloadConfiguration() throws HostListException, IOException {
@@ -39,7 +43,8 @@ public class HostListAgregate extends HostListComponent {
                     HostListAgregate.instance.addItem(wlc);
                     break;
                 }
-                case "configuration": break;
+                case "configuration":
+                    break;
                 case "ont": {
                     HostListAgregate.instance.addItem(new OntListComponent(queueName, confEntry.getSlot(), confEntry.getSize()));
                     break;
@@ -51,8 +56,6 @@ public class HostListAgregate extends HostListComponent {
             }
         }
     }
-
-
 
 
     public LinkedList<HostListComponent> getAgregateList() {
@@ -67,7 +70,7 @@ public class HostListAgregate extends HostListComponent {
                     try {
                         instance.reloadConfiguration();
                     } catch (IOException e) {
-                        throw new HostListException(ExceptionMessages.CONFIGURATION_READING_FAILURE,e.getMessage());
+                        throw new HostListException(ExceptionMessages.CONFIGURATION_READING_FAILURE, e.getMessage());
                     }
                 }
             }
@@ -91,32 +94,33 @@ public class HostListAgregate extends HostListComponent {
         checkIfOnlyHostIsRemoved(item);
         Host hostToRemove = (Host) item;
 
-        for(HostListComponent hlc: agregateList) {
-            if(hlc.getName().equals(hostToRemove.getListName())) {
+        for (HostListComponent hlc : agregateList) {
+            if (hlc.getName().equals(hostToRemove.getListName())) {
                 hlc.removeItem(item);
                 return;
             }
         }
-        throw new HostListException(ExceptionMessages.NOT_PRESENT,"No Item " + hostToRemove.getListName() + " in HostListAgregate");
+        throw new HostListException(ExceptionMessages.NOT_PRESENT, "No Item " + hostToRemove.getListName() + " in HostListAgregate");
     }
 
     public void removeAllItems() throws HostListException {
-        while(agregateList.size() >0 ) {
+        while (agregateList.size() > 0) {
             agregateList.get(0).removeAllItems();
             agregateList.remove(0);
         }
     }
 
     private void checkIfOnlyHostIsRemoved(HostListComponent item) throws HostListException {
-        if(!(item instanceof Host)) throw  new HostListException(ExceptionMessages.LOGIC_ERROR,"It is possible to remove hosts only");
+        if (!(item instanceof Host))
+            throw new HostListException(ExceptionMessages.LOGIC_ERROR, "It is possible to remove hosts only");
     }
 
     @Override
     public int addItem(HostListComponent item) throws HostListException {
-        if(item instanceof Host) {
+        if (item instanceof Host) {
             String targetList = ((Host) item).getListName();
-            for(HostListComponent hlc : agregateList) {
-                if(hlc.getName().equals(targetList)) {
+            for (HostListComponent hlc : agregateList) {
+                if (hlc.getName().equals(targetList)) {
                     return hlc.addItem(item);
                 }
             }
@@ -142,19 +146,19 @@ public class HostListAgregate extends HostListComponent {
         return 0;
     }
 
-    public void setSizeOfInternalList(String targetList,int size) throws HostListException {
-        for(HostListComponent hlc : agregateList) {
-            if(hlc.getName().equals(targetList)) {
+    public void setSizeOfInternalList(String targetList, int size) throws HostListException {
+        for (HostListComponent hlc : agregateList) {
+            if (hlc.getName().equals(targetList)) {
                 hlc.setSize(size);
                 try {
-                    ConfigurationManager.getInstance().setQueueSize(targetList,size);
+                    ConfigurationManager.getInstance().setQueueSize(targetList, size);
                 } catch (IOException e) {
-                    throw new HostListException(ExceptionMessages.CONFIGURATION_READING_FAILURE,e.getMessage());
+                    throw new HostListException(ExceptionMessages.CONFIGURATION_READING_FAILURE, e.getMessage());
                 }
                 return;
             }
         }
-        throw new HostListException(ExceptionMessages.NOT_PRESENT,"Internal list " + targetList + " not present in agregate");
+        throw new HostListException(ExceptionMessages.NOT_PRESENT, "Internal list " + targetList + " not present in agregate");
     }
 
 
@@ -173,13 +177,12 @@ public class HostListAgregate extends HostListComponent {
         return 0;
     }
 
-    public HostListComponent getQueue(String name){
-        for(HostListComponent hlc: agregateList) {
-            if(hlc.getName().equals(name)) {
+    public HostListComponent getQueue(String name) {
+        for (HostListComponent hlc : agregateList) {
+            if (hlc.getName().equals(name)) {
                 return hlc;
             }
         }
         return null;
     }
-
 }

@@ -32,7 +32,7 @@ public class OntListComponent extends HostListComponent {
         ocupiedSlots = new CopyOnWriteArrayList<>();
         fillAllSlotsAsEmpty(size);
         configuration = new ResetConfiguration();
-        startThreadCheckConfiguration();
+//        startThreadCheckConfiguration(); after upgrade DSLAM this is unnecessary
     }
 
     private void fillAllSlotsAsEmpty(int size) {

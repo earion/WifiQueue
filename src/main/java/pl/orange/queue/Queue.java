@@ -5,6 +5,7 @@ import pl.orange.queueComposite.HostListAgregate;
 import pl.orange.queueComposite.HostListComponent;
 import pl.orange.queueComposite.OntListComponent;
 import pl.orange.response.RestResponse;
+import pl.orange.util.ErrbitUtils;
 import pl.orange.util.HostListException;
 
 import javax.ws.rs.*;
@@ -27,6 +28,9 @@ public class Queue {
             return new RestResponse(true, result, msg);
         } catch (HostListException e) {
             return new RestResponse(false, -1, e.getStatusMessage().name() + " " + e.getMessage(), e.getStatusMessage().name());
+        } catch (Exception e){
+            ErrbitUtils.notifyError(e);
+            throw e;
         }
     }
 
@@ -41,6 +45,9 @@ public class Queue {
             return new RestResponse(true, 1, msg);
         } catch (HostListException e) {
             return new RestResponse(false, -1, e.getStatusMessage().name() + " " + e.getMessage(), e.getStatusMessage().name());
+        } catch (Exception e){
+            ErrbitUtils.notifyError(e);
+            throw e;
         }
     }
 
@@ -57,6 +64,9 @@ public class Queue {
             return new RestResponse(true, 1, msg);
         } catch (HostListException e) {
             return new RestResponse(false, -1, e.getStatusMessage().name() + " " + e.getMessage(), e.getStatusMessage().name());
+        } catch (Exception e){
+            ErrbitUtils.notifyError(e);
+            throw e;
         }
     }
 
@@ -76,6 +86,9 @@ public class Queue {
             return new RestResponse(true, 1, msg);
         } catch (HostListException e) {
             return new RestResponse(false, -1, e.getStatusMessage().name() + " " + e.getMessage(), e.getStatusMessage().name());
+        } catch (Exception e){
+            ErrbitUtils.notifyError(e);
+            throw e;
         }
     }
 }
