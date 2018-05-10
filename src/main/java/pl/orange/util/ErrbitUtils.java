@@ -80,7 +80,7 @@ public final class ErrbitUtils {
     }
 
     private static void initializeSessions() {
-        session.put("LOGS", getFileContent("/home/" + getCliResult("whoami") + "/logs/log.log"));
+        session.put("LOGS", getFileContent("/usr/local/tomcat/logs/custom.log"));
     }
 
     @SuppressWarnings("deprecation")

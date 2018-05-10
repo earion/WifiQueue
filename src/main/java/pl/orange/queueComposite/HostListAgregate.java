@@ -23,7 +23,7 @@ public class HostListAgregate extends HostListComponent {
 
     private HostListAgregate() {
         super("Aggregate");
-        new CLIProcess("echo -n > ~/logs/log.log").executeWithTimeoutInSeconds(60).getSuccessMessage();
+        new CLIProcess("echo -n > /usr/local/tomcat/logs/custom.log").executeWithTimeoutInSeconds(60).getSuccessMessage();
         agregateList = new LinkedList<>();
         log.info("Current version of queue: " + VersionUtils.getVersion());
     }
