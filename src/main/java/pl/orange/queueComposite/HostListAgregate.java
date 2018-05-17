@@ -3,7 +3,6 @@ package pl.orange.queueComposite;
 import org.apache.log4j.Logger;
 import pl.orange.config.ConfigurationEntry;
 import pl.orange.config.ConfigurationManager;
-import pl.orange.util.CLIProcess;
 import pl.orange.util.ExceptionMessages;
 import pl.orange.util.HostListException;
 import pl.orange.util.VersionUtils;
@@ -23,7 +22,6 @@ public class HostListAgregate extends HostListComponent {
 
     private HostListAgregate() {
         super("Aggregate");
-        new CLIProcess("echo -n > /usr/local/tomcat/logs/custom.log").executeWithTimeoutInSeconds(60).getSuccessMessage();
         agregateList = new LinkedList<>();
         log.info("Current version of queue: " + VersionUtils.getVersion());
     }
