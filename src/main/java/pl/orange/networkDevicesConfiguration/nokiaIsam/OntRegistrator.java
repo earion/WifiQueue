@@ -1,6 +1,7 @@
 package pl.orange.networkDevicesConfiguration.nokiaIsam;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 import pl.orange.util.ExceptionMessages;
 import pl.orange.util.HostListException;
 
@@ -8,6 +9,7 @@ import java.util.Scanner;
 
 public class OntRegistrator {
 
+    private static final Logger log = Logger.getLogger(OntRegistrator.class);
     private String ontId;
     private String slot;
 
@@ -20,11 +22,7 @@ public class OntRegistrator {
         if (!serialNumber.matches("^[A-Z]{4}[A-F0-9]{8}$")) {
             throw new HostListException(ExceptionMessages.SERIAL_NUMBER_DO_NOT_MATCH_PREFIX, "Serial number " + serialNumber + " format must be XXXXDDDDDDDD");
         }
-        StringBuilder commands = new StringBuilder();
-        commands.append(downPort())
-                .append(configureSernum(serialNumber.toUpperCase()))
-                .append(upPort());
-        return commands.toString();
+        return downPort() + configureSernum(serialNumber.toUpperCase()) + upPort();
 
     }
 
@@ -38,7 +36,13 @@ public class OntRegistrator {
     public void unregisterONT() throws HostListException {
         String commands = preperareUnregisterCommands();
         IsamConfigurator isc = new IsamConfigurator("dslam");
+        printInformationAboutPowerOptics(isc);
         isc.sendConfiguration(commands);
+    }
+
+    private void printInformationAboutPowerOptics(IsamConfigurator isc) throws HostListException {
+        String powerOptics = isc.sendConfiguration("show equipment ont optics 1/1/8/" + ontId + "/" + slot);
+        log.info("[POWER OPTICS]: " + powerOptics);
     }
 
     public String preperareUnregisterCommands() throws HostListException {
@@ -47,12 +51,7 @@ public class OntRegistrator {
 
 
     private String managePortState() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("configure equipment ont interface 1/1/8/")
-                .append(ontId)
-                .append("/")
-                .append(slot);
-        return sb.toString();
+        return "configure equipment ont interface 1/1/8/" + ontId + "/" + slot;
     }
 
     //configure equipment ont interface 1/1/8/1/2 admin-state up
@@ -67,12 +66,8 @@ public class OntRegistrator {
 
     //configure equipment ont interface 1/1/8/1/2 sernum SMBS:21000936 sw-ver-pland disabled fec-up enable enable-aes enable
     private String configureSernum(String serialNumber) {
-        StringBuilder tmp = new StringBuilder();
-        tmp.append(managePortState())
-                .append(" sernum ")
-                .append(prepareSerialNUmber(serialNumber))
-                .append(" sw-ver-pland disabled fec-up enable enable-aes enable\n");
-        return tmp.toString();
+        return managePortState() + " sernum " + prepareSerialNUmber(serialNumber)
+                + " sw-ver-pland disabled fec-up enable enable-aes enable\n";
     }
 
     private String prepareSerialNUmber(String serialNumber) {
