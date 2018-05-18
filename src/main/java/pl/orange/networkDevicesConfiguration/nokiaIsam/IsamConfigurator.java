@@ -56,11 +56,12 @@ class IsamConfigurator extends NetworkDeviceConfigurator {
         if (out.contains("invalid token")) {
             throw new HostListException(ExceptionMessages.DSLAM_CONNECTION_ISSUE, out);
         }
-        if(!commands.equalsIgnoreCase("info configure equipment ont interface") || commands.contains("optics")) {
+        log.info("RECEIVED OUTPUT\n" + out);
+       /* if(!commands.equalsIgnoreCase("info configure equipment ont interface") || commands.contains("optics")) {
             log.info("Received output " + out);
         } else {
             log.info("Confirm received output. Response is too long.");
-        }
+        }*/
         networkDevice.startKeepingSession();
         return out;
     }
