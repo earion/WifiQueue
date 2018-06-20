@@ -51,16 +51,21 @@ class IsamConfigurator extends NetworkDeviceConfigurator {
     }
 
     private String sendCommand(String commands) throws HostListException, IOException {
+        return sendCommand(commands, true);
+    }
+
+    String sendCommand(String commands, boolean outputToLog) throws HostListException, IOException {
         networkDevice.stopKeepingSession();
-        String out = networkDevice.sendCommand(commands);
+        String out = networkDevice.sendCommand(commands, outputToLog);
         if (out.contains("invalid token")) {
             throw new HostListException(ExceptionMessages.DSLAM_CONNECTION_ISSUE, out);
         }
-        log.info("RECEIVED OUTPUT\n" + out);
-        if(!commands.equalsIgnoreCase("info configure equipment ont interface")) {
-            log.info("Received output " + out);
-        } else {
-            log.info("Confirm received output. Response is too long.");
+        if(outputToLog) {
+            if (!commands.equalsIgnoreCase("info configure equipment ont interface")) {
+                log.info("Received output " + out);
+            } else {
+                log.info("Confirm received output. Response is too long.");
+            }
         }
         networkDevice.startKeepingSession();
         return out;

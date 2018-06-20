@@ -73,6 +73,11 @@ class NetworkDeviceConnectionSshCisco extends NetworkDeviceConnectionAbstract im
 
     @Override
     public String sendCommand(String command) throws HostListException {
+        return sendCommand(command, true);
+    }
+
+    @Override
+    public String sendCommand(String command, boolean outputToLog) throws HostListException {
         Result result;
         try {
             expect.sendLine(command);

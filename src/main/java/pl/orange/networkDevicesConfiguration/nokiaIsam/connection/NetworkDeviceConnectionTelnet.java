@@ -40,6 +40,11 @@ class NetworkDeviceConnectionTelnet extends NetworkDeviceConnectionAbstract impl
 
     @Override
     public String sendCommand(String command) throws IOException {
+        return sendCommand(command, true);
+    }
+
+    @Override
+    public String sendCommand(String command, boolean outputToLog) throws IOException {
         if (authorize()) {
             sendTelnetCommand(command);
         }

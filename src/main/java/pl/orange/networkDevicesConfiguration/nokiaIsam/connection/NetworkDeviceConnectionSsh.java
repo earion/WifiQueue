@@ -42,7 +42,6 @@ class NetworkDeviceConnectionSsh extends NetworkDeviceConnectionAbstract impleme
                 expect = new ExpectBuilder()
                         .withOutput(shell.getOutputStream())
                         .withInputs(shell.getInputStream(), shell.getErrorStream())
-                        .withEchoInput(System.out)
                         .withEchoOutput(System.err)
                         .withInputFilters(removeColors(), removeNonPrintable())
                         .withExceptionOnFailure()
@@ -80,6 +79,11 @@ class NetworkDeviceConnectionSsh extends NetworkDeviceConnectionAbstract impleme
 
     @Override
     public String sendCommand(String command) throws HostListException {
+        return sendCommand(command, true);
+    }
+
+    @Override
+    public String sendCommand(String command, boolean outputToLog) throws HostListException {
         Result result;
         try {
             expect.sendLine(command);

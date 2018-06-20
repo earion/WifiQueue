@@ -2,6 +2,8 @@ package pl.orange.networkDevicesConfiguration.nokiaIsam.connection;
 
 import pl.orange.util.HostListException;
 
+import java.io.IOException;
+
 public class NetworkDeviceConnectionSerial extends NetworkDeviceConnectionAbstract implements NetworkDeviceConnectable {
 
 
@@ -16,6 +18,11 @@ public class NetworkDeviceConnectionSerial extends NetworkDeviceConnectionAbstra
 
     @Override
     public String sendCommand(String command) throws HostListException {
+        return null;
+    }
+
+    @Override
+    public String sendCommand(String command, boolean outputToLog) throws HostListException, IOException {
         return null;
     }
 

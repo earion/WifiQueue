@@ -1,13 +1,15 @@
 package pl.orange.networkDevicesConfiguration.nokiaIsam;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 import pl.orange.util.ExceptionMessages;
 import pl.orange.util.HostListException;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class OntRegistrator {
-
+    private static final Logger log = Logger.getLogger(OntRegistrator.class);
     private String ontId;
     private String slot;
 
@@ -38,7 +40,28 @@ public class OntRegistrator {
     public void unregisterONT() throws HostListException {
         String commands = preperareUnregisterCommands();
         IsamConfigurator isc = new IsamConfigurator("dslam");
+        showOpticsTable(isc);
         isc.sendConfiguration(commands);
+    }
+
+    private void showOpticsTable(IsamConfigurator isc) {
+        String responseOk = "sig-level";
+        try {
+            String response = isc.sendCommand("show equipment ont optics 1/1/8/" + ontId + "/" + slot, false);
+            int attempts = 0;
+            while (!response.contains(responseOk) && attempts < 20) {
+                response = isc.sendCommand("", false);
+                Thread.sleep(1000);
+                attempts++;
+            }
+            if(response.contains(responseOk)){
+                log.info(response);
+            } else {
+                log.warn("Can't get the optics table");
+            }
+        } catch (HostListException | IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public String preperareUnregisterCommands() throws HostListException {
@@ -93,7 +116,7 @@ public class OntRegistrator {
         String response = isc.sendConfiguration("info configure equipment ont interface");
         int attempts = 0;
         while (!response.contains("interface 1/1/8") && attempts < 10) {
-            response = isc.sendConfiguration("info configure equipment ont interface");
+            response = isc.sendConfiguration("");
             Thread.sleep(3000);
             attempts++;
         }
