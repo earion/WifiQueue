@@ -3,31 +3,10 @@ package pl.orange.networkDevicesConfiguration.nokiaIsam.connection;
 import java.io.IOException;
 
 abstract class NetworkDeviceConnectionAbstract implements NetworkDeviceConnectable {
-
-
-    public String getConectionType() {
-        return conectionType;
-    }
-
-    String getUser() {
-        return user;
-    }
-
-   public String getPassword() {
-        return password;
-    }
-
-    String getConnectionDestination() {
-        return connectionDestination;
-    }
-
-    public abstract void disconnect() throws IOException;
-
     private String conectionType;
     private String user;
     private String password;
     private String connectionDestination;
-
 
     NetworkDeviceConnectionAbstract(String connectionParameters) {
         parseParameters(connectionParameters);
@@ -40,5 +19,27 @@ abstract class NetworkDeviceConnectionAbstract implements NetworkDeviceConnectab
         conectionType = params[3];
         user = params[0];
         password = params[1];
+    }
+
+    public String getConectionType() {
+        return conectionType;
+    }
+
+    String getUser() {
+        return user;
+    }
+
+    String getConnectionDestination() {
+        return connectionDestination;
+    }
+
+    public void setConnectionDestination(String connectionDestination) {
+        this.connectionDestination = connectionDestination;
+    }
+
+    public abstract void disconnect() throws IOException;
+
+    public String getPassword() {
+        return password;
     }
 }

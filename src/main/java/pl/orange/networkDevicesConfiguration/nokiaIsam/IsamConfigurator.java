@@ -13,7 +13,7 @@ class IsamConfigurator extends NetworkDeviceConfigurator {
     private static final Logger log = Logger.getLogger(IsamConfigurator.class);
 
     IsamConfigurator(String name) throws HostListException {
-        super(name);
+        super(name, null);
     }
 
     protected String sendConfiguration(String commands) throws HostListException {

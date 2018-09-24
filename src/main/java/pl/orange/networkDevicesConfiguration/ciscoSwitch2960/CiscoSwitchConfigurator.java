@@ -12,8 +12,8 @@ public class CiscoSwitchConfigurator extends NetworkDeviceConfigurator implement
 
     private static final Logger log = Logger.getLogger(CiscoSwitchConfigurator.class);
 
-    protected CiscoSwitchConfigurator(String name) throws HostListException {
-        super("switch");
+    protected CiscoSwitchConfigurator(String name, String overrideIp) throws HostListException {
+        super("switch", overrideIp);
         try {
             networkDevice.setConnection();
         } catch (IOException e) {
@@ -21,8 +21,8 @@ public class CiscoSwitchConfigurator extends NetworkDeviceConfigurator implement
         }
     }
 
-    protected CiscoSwitchConfigurator(String name,Boolean mode) throws HostListException {
-        this(name);
+    protected CiscoSwitchConfigurator(String name, Boolean mode, String overrideIp) throws HostListException {
+        this(name, overrideIp);
         if (mode) {
             sendConfiguration("configure terminal");
         }
